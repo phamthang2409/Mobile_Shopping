@@ -1,6 +1,0 @@
-@MobileShoppingAPI_HostAddress = http://localhost:5124
-
-GET {{MobileShoppingAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
