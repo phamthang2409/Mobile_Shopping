@@ -21,13 +21,12 @@ axiosClient.interceptors.request.use(
   }
 );
 
-// 2. Response Interceptor: Xử lý lỗi 401 (Hết hạn Token) và tự động Refresh
+// Response Interceptor: Xử lý lỗi 401 (Hết hạn Token) và tự động Refresh
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Kiểm tra nếu lỗi là 401 (Unauthorized) và request này chưa từng thử refresh (_retry)
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -40,7 +39,7 @@ axiosClient.interceptors.response.use(
 
         // Gọi API Refresh. 
         const response = await axios.post('https://localhost:7180/api/Auth/refresh', {
-          RefreshToken: refreshToken // Key phải khớp với Class ở Backend (RefreshRequest)
+          RefreshToken: refreshToken 
         });
 
         const newToken = response.data.Token || response.data.token || response.data.accessToken;
@@ -54,7 +53,6 @@ axiosClient.interceptors.response.use(
             localStorage.setItem('refreshToken', newRefreshToken);
           }
 
-          // Cập nhật lại Header của request cũ và thực hiện lại nó
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
           return axiosClient(originalRequest);
         }

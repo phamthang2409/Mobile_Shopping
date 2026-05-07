@@ -16,7 +16,7 @@ const ShopPage: React.FC<ShopPageProps> = ({ onSelectProduct }) => {
     (state: RootState) => state.products || { items: [], loading: false, error: null }
   );
 
-  // 2. States quản lý hiển thị
+  // States quản lý hiển thị
   const [searchTerm, setSearchTerm] = useState(''); 
   const [showFilter, setShowFilter] = useState(false); 
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 }); 
@@ -24,12 +24,10 @@ const ShopPage: React.FC<ShopPageProps> = ({ onSelectProduct }) => {
 
   const DEFAULT_IMAGE = "https://placehold.jp/24/cccccc/ffffff/200x200.png?text=No+Image";
 
-  // Lấy dữ liệu lần đầu khi vào trang
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Đồng bộ displayItems và set giá Max mặc định khi có dữ liệu từ Redux
   useEffect(() => {
     if (items.length > 0) {
       setDisplayItems(items);
@@ -38,7 +36,7 @@ const ShopPage: React.FC<ShopPageProps> = ({ onSelectProduct }) => {
     }
   }, [items]);
 
-  // 3. HÀM XỬ LÝ LỌC TẠI FE 
+  // HÀM XỬ LÝ LỌC TẠI FE 
   const handleApplyFilters = () => {
     const result = items.filter((p: any) => {
       const pName = (p.productName || p.ProductName || "").toLowerCase();

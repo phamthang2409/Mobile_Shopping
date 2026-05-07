@@ -21,7 +21,7 @@ const CartPage: React.FC = () => {
   // Tạo key định danh dựa trên ID người dùng để tránh lẫn lộn dữ liệu giữa các tài khoản
   const storageKey = user ? `cart_${user.id || user.Id}` : '';
 
-  // 1. Lấy dữ liệu từ LocalStorage khi Component được gắn vào (Mount)
+  // Lấy dữ liệu từ LocalStorage khi Component được gắn vào (Mount)
   useEffect(() => {
     if (user && storageKey) {
       const localData = localStorage.getItem(storageKey);
@@ -37,7 +37,6 @@ const CartPage: React.FC = () => {
     }
   }, [user, storageKey]);
 
-  // 2. Hàm Thanh toán - Chuyển sang trang nhập thông tin (Checkout)
   const handleCheckout = () => {
     if (items.length === 0) return alert("Giỏ hàng đang trống!");
     
@@ -45,7 +44,7 @@ const CartPage: React.FC = () => {
     navigate('/checkout', { state: { items: items } });
   };
 
-  // 3. Thay đổi số lượng sản phẩm
+  // Thay đổi số lượng sản phẩm
   const handleQuantityChange = (productId: number, currentQty: number, delta: number) => {
     const newQty = currentQty + delta;
     if (!user || !storageKey) return;
@@ -62,7 +61,6 @@ const CartPage: React.FC = () => {
       );
     }
 
-    // Cập nhật đồng thời State để UI thay đổi và LocalStorage để lưu trữ
     setItems(updatedItems);
     localStorage.setItem(storageKey, JSON.stringify(updatedItems));
   };

@@ -25,7 +25,6 @@ const CheckoutPage: React.FC = () => {
     const total = subTotal + (subTotal * 0.1); // Thuế 10%
 
     const handleOrder = async () => {
-    // 1. Kiểm tra thông tin đầu vào cơ bản
     if (!info.name.trim() || !info.address.trim() || !info.phone.trim()) {
         alert("Vui lòng nhập đầy đủ Tên, Địa chỉ và Số điện thoại!");
         return;
@@ -34,7 +33,7 @@ const CheckoutPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-        // 2. Lấy dữ liệu user từ localStorage
+        // Lấy dữ liệu user từ localStorage
         const userData = localStorage.getItem('user');
         if (!userData) {
             alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
@@ -47,7 +46,6 @@ const CheckoutPage: React.FC = () => {
         const userIdRaw = user.Id || user.id || (user.User && (user.User.Id || user.User.id));
         const userId = Number(userIdRaw);
 
-        // Kiểm tra nếu userId vẫn là NaN
         if (!userId || isNaN(userId)) {
             console.error("UserID bị NaN. Dữ liệu User hiện tại:", user);
             alert("Lỗi hệ thống: Không xác định được danh tính người dùng. Vui lòng đăng nhập lại!");
@@ -55,7 +53,7 @@ const CheckoutPage: React.FC = () => {
             return;
         }
 
-        // 4. Chuẩn hóa OrderData khớp với PascalCase của Backend DTO
+        // Chuẩn hóa OrderData khớp với PascalCase của Backend DTO
         const orderData: OrderRequestData = {
             Name: info.name.trim(),
             Phone: info.phone.trim(),
@@ -76,14 +74,12 @@ const CheckoutPage: React.FC = () => {
         const response = await cartApi.checkout(userId, orderData);
         console.log(" Phản hồi từ Server:", response);
 
-        // 6. Kiểm tra phản hồi
+        // Kiểm tra phản hồi
         if (response) {
             alert("🎉 Chúc mừng! Đơn hàng của bạn đã đặt thành công.");
             
-            // Xóa giỏ hàng cục bộ của user
             localStorage.removeItem(`cart_${userId}`);
             
-            // Phát sự kiện để Header cập nhật số lượng badge về 0
             window.dispatchEvent(new Event("storage"));
             
             navigate('/'); 

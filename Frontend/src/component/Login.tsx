@@ -51,7 +51,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, switchToRegister }) => {
     
     setIsSubmitting(true);
     
-    // Gửi đúng định dạng DTO (PascalCase)
     dispatch(loginAction({ 
       UserName: username, 
       PassWord: password 

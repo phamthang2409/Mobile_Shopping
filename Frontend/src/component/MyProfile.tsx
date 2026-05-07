@@ -11,7 +11,6 @@ const MyProfile: React.FC = () => {
     return <div className="profile-container">Vui lòng đăng nhập để xem thông tin</div>;
   }
 
-  // Hàm format ngày tháng chuẩn Việt Nam
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);

@@ -17,17 +17,14 @@ export interface OrderRequestData {
 }
 
 const cartApi = {
-  // Lấy dữ liệu giỏ hàng từ Database
   getCart: (userId: number) => {
     return axiosClient.get(`/Cart/${userId}`);
   },
   
-  // Thêm sản phẩm vào giỏ hàng (Xử lý tại Service/DB ở Backend)
   addToCart: (userId: number, productId: number, quantity: number = 1) => {
     return axiosClient.post(`/Cart/add/${userId}`, { productId, quantity });
   },
 
-  // Xóa sản phẩm khỏi giỏ hàng
   removeFromCart: (userId: number, productId: number) => {
     return axiosClient.delete(`/Cart/remove/${userId}/${productId}`);
   },

@@ -31,7 +31,6 @@ const Register: React.FC<RegisterProps> = ({ switchToLogin }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    //  Gửi action đăng ký thực tế
     // unwrap() giúp chúng ta xử lý logic sau khi API thành công ngay tại đây
     dispatch(registerAction(formData))
       .unwrap()

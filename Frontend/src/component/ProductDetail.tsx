@@ -35,12 +35,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
 
   if (!product) return null;
 
-  // Lấy tên sản phẩm chuẩn 
   const getProductName = () => {
     return product.productName || product.ProductName || product.name || product.Name || "Điện thoại";
   };
 
-  // 1. Hàm Thêm vào giỏ hàng
+  // Hàm Thêm vào giỏ hàng
   const handleAddToCart = () => {
     try {
       if (!user) {
@@ -77,7 +76,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
     }
   };
 
-  // 2. Hàm Mua Ngay
+  // Hàm Mua Ngay
   const handleBuyNow = () => {
     if (!user) {
       alert("Đăng nhập để thực hiện thanh toán nhé!");
@@ -94,7 +93,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
       quantity: 1
     };
 
-    // Chuyển sang trang checkout và chỉ truyền mảng chứa 1 sản phẩm này
     navigate('/checkout', { state: { items: [buyNowItem] } });
   };
 
