@@ -88,11 +88,11 @@ namespace Shopping_Mobile.Controllers
             });
         }
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] string refreshToken)
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequestDTO request)
         {
             var storedToken = await _context.RefreshTokens
                 .FirstOrDefaultAsync(x =>
-                    x.Token == refreshToken &&
+                    x.Token == request.RefreshToken &&
                     !x.IsRevoked);
 
             if (storedToken == null)
@@ -119,11 +119,22 @@ namespace Shopping_Mobile.Controllers
                 return Unauthorized();
             }
 
+            // Access token mới
             var newAccessToken = _tokenProvider.Create(user);
+
+            // Refresh token mới
+            var newRefreshToken = _tokenProvider.GenerateRefreshToken();
+
+            // Update token cũ
+            storedToken.Token = newRefreshToken;
+            storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
+
+            await _context.SaveChangesAsync();
 
             return Ok(new
             {
-                accessToken = newAccessToken
+                accessToken = newAccessToken,
+                refreshToken = newRefreshToken
             });
         }
     }

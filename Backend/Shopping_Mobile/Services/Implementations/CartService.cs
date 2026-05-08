@@ -33,7 +33,7 @@ namespace Shopping_Mobile.Services.Implementations
 
         public async Task<bool> ProcessCheckoutAsync(int userId, List<CartDTO> items)
         {
-            // 1. Tìm hoặc tạo giỏ hàng gốc cho User 
+            // Tìm hoặc tạo giỏ hàng gốc cho User 
             var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
             if (cart == null)
             {
@@ -42,7 +42,7 @@ namespace Shopping_Mobile.Services.Implementations
                 await _context.SaveChangesAsync();
             }
 
-            // 2. Lưu danh sách sản phẩm từ FE vào bảng CartItems
+            // Lưu danh sách sản phẩm từ FE vào bảng CartItems
             foreach (var item in items)
             {
                 var orderItem = new CartItem

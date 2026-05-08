@@ -1,0 +1,40 @@
+
+# Backend (.NET)
+**/[Bb]in/
+**/[Oo]bj/
+.vs/
+
+*.user
+*.suo
+*.db
+*.dll
+*.exe
+*.pdb
+
+# Rider / VS
+*.rsuser
+
+# Cache
+*.cache
+*.json.cache
+*.dtbcache.v2
+*.futdcache.v2
+
+# Logs
+*.log
+
+# FE
+**/node_modules/
+**/dist/
+**/build/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# npm/yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

@@ -47,7 +47,6 @@ namespace Shopping_Mobile.Controllers
         [HttpPost("checkout/{userId}")]
         public async Task<IActionResult> CreateOrder(int userId, [FromBody] OrderRequestDTO request)
         {
-            // Kiểm tra dữ liệu đầu vào
             if (request == null || request.Items == null || !request.Items.Any())
                 return BadRequest(new { message = "Đơn hàng không có sản phẩm hoặc dữ liệu không hợp lệ!" });
 
@@ -56,7 +55,7 @@ namespace Shopping_Mobile.Controllers
             {
                 decimal totalAmount = 0;
 
-                // 1. Xác nhận sản phẩm và tính tổng tiền
+                // Xác nhận sản phẩm và tính tổng tiền
                 foreach (var item in request.Items)
                 {
                     var product = await _context.Products.FindAsync(item.ProductId);
@@ -66,7 +65,7 @@ namespace Shopping_Mobile.Controllers
                     totalAmount += product.Price * item.Quantity;
                 }
 
-                // 2. Tạo đối tượng Order mới
+                // Tạo đối tượng Order mới
                 var newOrder = new Order
                 {
                     UserId = userId.ToString(), 
@@ -80,9 +79,9 @@ namespace Shopping_Mobile.Controllers
                 };
 
                 _context.Orders.Add(newOrder);
-                await _context.SaveChangesAsync(); // Lưu để lấy newOrder.Id
+                await _context.SaveChangesAsync();
 
-                // 3. Lưu chi tiết đơn hàng (OrderDetails)
+                // Lưu chi tiết đơn hàng (OrderDetails)
                 foreach (var item in request.Items)
                 {
                     _context.OrderDetails.Add(new OrderDetail

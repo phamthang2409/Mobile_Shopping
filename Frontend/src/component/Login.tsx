@@ -51,6 +51,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, switchToRegister }) => {
     
     setIsSubmitting(true);
     
+  
     dispatch(loginAction({ 
       UserName: username, 
       PassWord: password 

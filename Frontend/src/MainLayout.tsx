@@ -23,7 +23,7 @@ const MainLayout: React.FC = () => {
   const handleLogout = () => {
     if (window.confirm("Bạn muốn đăng xuất à?")) {
       localStorage.removeItem('user');
-      localStorage.removeItem('forceLogin'); // Đảm bảo không hiện lại form login
+      localStorage.removeItem('forceLogin'); 
       setUser(null);
       window.location.reload(); 
     }
@@ -32,7 +32,7 @@ const MainLayout: React.FC = () => {
   // Hàm chuyển hướng sang trang Đăng nhập
   const handleGoToLogin = () => {
     localStorage.setItem('forceLogin', 'true');
-    localStorage.setItem('isRegistering', 'false'); // Flag để App.tsx biết hiện Login
+    localStorage.setItem('isRegistering', 'false'); 
     window.location.reload();
   };
 

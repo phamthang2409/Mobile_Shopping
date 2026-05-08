@@ -426,3 +426,4 @@ E:\Mobile_Shopping\Backend\Shopping_Mobile\obj\Debug\net8.0\Shopping_Mobile.pdb
 E:\Mobile_Shopping\Backend\Shopping_Mobile\obj\Debug\net8.0\Shopping_Mobile.genruntimeconfig.cache
 E:\Mobile_Shopping\Backend\Shopping_Mobile\obj\Debug\net8.0\ref\Shopping_Mobile.dll
 E:\Mobile_Shopping\Backend\Shopping_Mobile\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+E:\Mobile_Shopping\Backend\Shopping_Mobile\obj\Debug\net8.0\Shopping_Mobile.sourcelink.json

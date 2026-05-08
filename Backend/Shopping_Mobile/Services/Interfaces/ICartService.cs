@@ -11,4 +11,4 @@ namespace Shopping_Mobile.Interfaces
         Task<IEnumerable<Order>> GetAllOrderAsync();
 
     }
-}
+}   

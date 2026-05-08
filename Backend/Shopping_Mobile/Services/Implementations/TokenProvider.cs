@@ -31,7 +31,7 @@ public class TokenProvider
 
         if (expirationMinutes <= 0)
         {
-            expirationMinutes = 10;
+            expirationMinutes = 1;
         }
 
         var claims = new[]

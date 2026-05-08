@@ -40,7 +40,6 @@ const CartPage: React.FC = () => {
   const handleCheckout = () => {
     if (items.length === 0) return alert("Giỏ hàng đang trống!");
     
-    // Chuyển hướng và truyền kèm dữ liệu sản phẩm qua state của router
     navigate('/checkout', { state: { items: items } });
   };
 
@@ -93,7 +92,6 @@ const CartPage: React.FC = () => {
               />
               <div className="product-info-col">
                 <h4>{item.productName || " Sản phẩm "}</h4>
-                <p className="product-id-tag">Mã SP: {item.productId}</p>
                 <h4 className="product-price-text">{Number(item.price).toLocaleString('vi-VN')} VND</h4>
               </div>
               <div className="quantity-actions">

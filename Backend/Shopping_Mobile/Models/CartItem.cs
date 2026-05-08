@@ -17,8 +17,8 @@ namespace Shopping_Mobile.Models
         [Required]
         public int Quantity { get; set; }
 
-        public int UserId { get; set; } // Để biết món hàng này của ai
-        public decimal PriceAtPurchase { get; set; } // Để lưu giá lúc mua
+        public int UserId { get; set; } 
+        public decimal PriceAtPurchase { get; set; } 
 
         // Cấu hình khóa ngoại để EF hiểu cách móc nối dữ liệu
         [ForeignKey("CartId")]

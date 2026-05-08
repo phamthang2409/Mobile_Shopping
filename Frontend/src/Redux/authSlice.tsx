@@ -2,25 +2,20 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import authApi from "../Api/authApi";
 import { RootState } from "./store";
 
-// 1. Cập nhật Interface đầy đủ các trường mà MyProfile và các trang khác đang gọi
-// Sử dụng dấu ? cho các trường có thể không có khi vừa đăng nhập
 interface User {
   id: number;
-  Id?: number;           // Hỗ trợ PascalCase từ lỗi CartPage/ProductDetail
+  Id?: number;          
   userName: string;
-  UserName?: string;     // Hỗ trợ PascalCase từ lỗi Login/MyProfile
-  email?: string;
-  Email?: string;        // Hỗ trợ lỗi MyProfile
-  dob?: string;
-  Dob?: string;          // Hỗ trợ lỗi MyProfile
-  gender?: string;
-  Gender?: string;       // Hỗ trợ lỗi MyProfile
-  address?: string;
-  Address?: string;      // Hỗ trợ lỗi MyProfile
+  UserName?: string;     
+  Email?: string;         
+  Dob?: string;           
+  Gender?: string;      
+  Address?: string;     
   role?: string;
-  Role?: string;
   token?: string;
-  Token?: string;
+  
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 interface AuthState {
@@ -44,6 +39,8 @@ const initialState: AuthState = {
   error: null,
 };
 
+//Login
+
 // ================= LOGIN =================
 
 export const loginAction = createAsyncThunk(
@@ -53,14 +50,23 @@ export const loginAction = createAsyncThunk(
       const response = await authApi.login(payload);
       const data = response.data;
 
-      // Lấy token linh hoạt
-      const token = data.Token || data.token || data.accessToken;
+      //  Lấy token linh hoạt từ response
+      const token = data.accessToken || data.token || data.Token;
+      // Lấy thêm refreshToken từ response trả về
+      const refreshToken = data.refreshToken || data.RefreshToken;
       
-      // Dữ liệu User trả về từ Backend thường là PascalCase (Id, UserName...)
-      // Chúng ta giữ nguyên object từ Backend để khớp với các file .tsx hiện tại của bạn
+      //  Dữ liệu User
       const user = data.user || data;
 
-      if (token) localStorage.setItem("token", token);
+      // LƯU VÀO LOCAL STORAGE (Quan trọng nhất)
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+      
+      if (refreshToken) {
+        localStorage.setItem("refreshToken", refreshToken); 
+      }
+
       localStorage.setItem("user", JSON.stringify(user));
 
       window.dispatchEvent(new Event("storage"));
@@ -74,7 +80,7 @@ export const loginAction = createAsyncThunk(
   }
 );
 
-// ================= REGISTER =================
+// Register
 
 export const registerAction = createAsyncThunk(
   "auth/register",
@@ -90,7 +96,7 @@ export const registerAction = createAsyncThunk(
   }
 );
 
-// ================= SLICE =================
+// Slice
 
 const authSlice = createSlice({
   name: "auth",

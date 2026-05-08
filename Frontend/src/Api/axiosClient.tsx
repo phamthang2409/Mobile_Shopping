@@ -7,7 +7,7 @@ const axiosClient = axios.create({
   },
 });
 
-// 1. Request Interceptor: Gắn Access Token vào Header trước khi gửi request
+// 1. Gắn Access Token vào mỗi Request
 axiosClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -16,54 +16,48 @@ axiosClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response Interceptor: Xử lý lỗi 401 (Hết hạn Token) và tự động Refresh
+// 2. Xử lý tự động Refresh khi hết hạn
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
-
-        if (!refreshToken) {
-          throw new Error("No refresh token available");
+        // Lấy "chìa khóa" để Backend tìm dưới DB
+        const currentRefreshToken = localStorage.getItem('refreshToken');   
+        if (!currentRefreshToken) {
+          throw new Error("No refresh token available in storage");
         }
-
-        // Gọi API Refresh. 
-        const response = await axios.post('https://localhost:7180/api/Auth/refresh', {
-          RefreshToken: refreshToken 
+        // Gửi lên Backend để Backend check dưới Database
+        const res = await axios.post('https://localhost:7180/api/Auth/refresh', {
+          RefreshToken: currentRefreshToken 
         });
 
-        const newToken = response.data.Token || response.data.token || response.data.accessToken;
+        // Backend trả về cặp mới 
+        const { accessToken, refreshToken: newRefreshToken } = res.data;
 
-        if (newToken) {
-          localStorage.setItem('token', newToken);
-
-          // Cập nhật Refresh Token mới nếu Backend có trả về cái mới
-          const newRefreshToken = response.data.RefreshToken || response.data.refreshToken;
+        if (accessToken) {
+          // Lưu cặp mới vào lại LocalStorage
+          localStorage.setItem('token', accessToken);
           if (newRefreshToken) {
             localStorage.setItem('refreshToken', newRefreshToken);
           }
-
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          // Thực hiện lại request cũ với token mới
+          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return axiosClient(originalRequest);
         }
       } catch (refreshError) {
-        // Nếu Refresh Token cũng hết hạn hoặc lỗi, xóa sạch và đá về trang Login
-        console.error("Refresh token expired or invalid:", refreshError);
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
+        // Nếu DB báo token không khớp hoặc hết hạn, dọn dẹp và Logout
+        console.error("Session expired:", refreshError);
+        localStorage.clear(); 
         
-        window.location.href = '/login';
+        if (!window.location.pathname.includes('/login')) {
+          window.location.href = '/login';
+        }
         return Promise.reject(refreshError);
       }
     }
