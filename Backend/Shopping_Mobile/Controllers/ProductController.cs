@@ -31,8 +31,9 @@ namespace Shopping_Mobile.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductDTO productDto)
+        public async Task<IActionResult> Create([FromBody] ProductDTO productDto)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _productService.AddProductAsync(productDto);
             return Ok(result);
         }

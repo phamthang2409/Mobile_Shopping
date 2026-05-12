@@ -70,7 +70,7 @@ const MainLayout: React.FC = () => {
           {user ? (
             <div className="user-logged-in">
               <div className="user-info" onClick={() => handleTabChange('profile')}>
-                <span className="user-display-name">Chào, {user.UserName}</span>
+                <span className="user-display-name">Chào, {user.userName}</span>
                 <img src="/avatar.png" alt="Avatar" className="mini-avatar" />
               </div>
               <button className="btn-logout-header" onClick={handleLogout}>Đăng xuất</button>

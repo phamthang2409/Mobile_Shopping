@@ -22,7 +22,7 @@ namespace Shopping_Mobile.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Shopping_Mobile.Models.Cart", b =>
+            modelBuilder.Entity("Shopping_Mobile.Models.Bill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,44 +30,25 @@ namespace Shopping_Mobile.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("UserId")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("Shopping_Mobile.Models.CartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PriceAtPurchase")
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartItems");
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("Shopping_Mobile.Models.Order", b =>
@@ -174,11 +155,8 @@ namespace Shopping_Mobile.Migrations
 
             modelBuilder.Entity("Shopping_Mobile.Models.RefreshToken", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
@@ -190,8 +168,9 @@ namespace Shopping_Mobile.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -202,11 +181,8 @@ namespace Shopping_Mobile.Migrations
 
             modelBuilder.Entity("Shopping_Mobile.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -228,6 +204,10 @@ namespace Shopping_Mobile.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -241,23 +221,15 @@ namespace Shopping_Mobile.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Shopping_Mobile.Models.CartItem", b =>
+            modelBuilder.Entity("Shopping_Mobile.Models.Bill", b =>
                 {
-                    b.HasOne("Shopping_Mobile.Models.Cart", "Cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartId")
+                    b.HasOne("Shopping_Mobile.Models.Order", "Order")
+                        .WithOne("Bill")
+                        .HasForeignKey("Shopping_Mobile.Models.Bill", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Shopping_Mobile.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Shopping_Mobile.Models.OrderDetail", b =>
@@ -290,13 +262,10 @@ namespace Shopping_Mobile.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Shopping_Mobile.Models.Cart", b =>
-                {
-                    b.Navigation("CartItems");
-                });
-
             modelBuilder.Entity("Shopping_Mobile.Models.Order", b =>
                 {
+                    b.Navigation("Bill");
+
                     b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618

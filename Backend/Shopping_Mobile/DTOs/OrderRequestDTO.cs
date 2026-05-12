@@ -6,6 +6,9 @@
         public string Phone { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string? Note { get; set; }
+
+        public string PaymentMethod { get; set; } = "COD";
+
         public List<OrderItemRequestDTO> Items { get; set; } = new();
     }
 
@@ -13,6 +16,7 @@
     {
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
+
+        
     }
 }

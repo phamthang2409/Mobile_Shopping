@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Shopping_Mobile.Data;
 using Shopping_Mobile.DTOs;
 using Shopping_Mobile.Interfaces;
+using AutoMapper;
 using Shopping_Mobile.Models;
+using Shopping_Mobile.Data; 
 
 namespace Shopping_Mobile.Controllers
 {
@@ -12,130 +12,77 @@ namespace Shopping_Mobile.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ITokenProvider _tokenProvider;
+        private readonly IMapper _mapper;
         private readonly AppDbContext _context;
-        private readonly TokenProvider _tokenProvider;
 
-        public AuthController(IAuthService authService, AppDbContext context, TokenProvider tokenProvider)
+        public AuthController(IAuthService authService, ITokenProvider tokenProvider, IMapper mapper, AppDbContext context)
         {
             _authService = authService;
-            _context = context;
             _tokenProvider = tokenProvider;
+            _mapper = mapper;
+            _context = context;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
             var user = await _authService.RegisterAsync(registerDto);
-
-            if (user == null)
-            {
-                return BadRequest(new { message = "Tên đăng nhập đã tồn tại!" });
-            }
-
+            if (user == null) return BadRequest(new { message = "Tên đăng nhập hoặc Email đã tồn tại!" });
             return Ok(new { message = "Đăng ký thành công!" });
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _authService.LoginAsync(
-                loginDto.UserName,
-                loginDto.PassWord
-            );
+            var user = await _authService.LoginAsync(loginDto);
+            if (user == null) return Unauthorized(new { message = "Sai tài khoản hoặc mật khẩu!" });
 
-            if (user == null)
-            {
-                return Unauthorized(new
-                {
-                    message = "Sai tài khoản hoặc mật khẩu!"
-                });
-            }
+            //  Tạo cặp Token
+            var accessToken = _tokenProvider.CreateToken(user);
+            var refreshTokenValue = _tokenProvider.GenerateRefreshToken();
 
-            var accessToken = _tokenProvider.Create(user);
-
-            var refreshToken = _tokenProvider.GenerateRefreshToken();
+            //Lưu Refresh Token vào Database
+            var oldTokens = _context.RefreshTokens.Where(t => t.UserId == user.Id);
+            _context.RefreshTokens.RemoveRange(oldTokens);
 
             var refreshTokenEntity = new RefreshToken
             {
-                Token = refreshToken,
+                Token = refreshTokenValue,
                 UserId = user.Id,
-                ExpiryDate = DateTime.UtcNow.AddDays(7),
-                IsRevoked = false
+                ExpiryDate = DateTime.UtcNow.AddDays(7), 
+                IsRevoked = false,              
             };
 
-            _context.RefreshTokens.Add(refreshTokenEntity);
-
+            await _context.RefreshTokens.AddAsync(refreshTokenEntity);
             await _context.SaveChangesAsync();
 
+            //  Trả về dữ liệu
             return Ok(new
             {
                 accessToken,
-                refreshToken,
-
-                user = new
-                {
-                    user.Id,
-                    user.UserName,
-                    user.Role
-                }
+                refreshToken = refreshTokenValue,
+                user = _mapper.Map<UserDTO>(user)
             });
         }
+
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequestDTO request)
         {
-            var storedToken = await _context.RefreshTokens
-                .FirstOrDefaultAsync(x =>
-                    x.Token == request.RefreshToken &&
-                    !x.IsRevoked);
+            if (request == null || string.IsNullOrEmpty(request.RefreshToken))
+                return BadRequest(new { message = "Refresh Token không được để trống" });
 
-            if (storedToken == null)
+            var result = await _authService.RefreshTokenAsync(request);
+
+            if (result == null)
             {
-                return Unauthorized(new
-                {
-                    message = "Refresh token không hợp lệ"
-                });
+                return Unauthorized(new { message = "Token không hợp lệ hoặc đã hết hạn" });
             }
 
-            if (storedToken.ExpiryDate < DateTime.UtcNow)
-            {
-                return Unauthorized(new
-                {
-                    message = "Refresh token đã hết hạn"
-                });
-            }
-
-            var user = await _context.Users
-                .FindAsync(storedToken.UserId);
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
-            // Access token mới
-            var newAccessToken = _tokenProvider.Create(user);
-
-            // Refresh token mới
-            var newRefreshToken = _tokenProvider.GenerateRefreshToken();
-
-            // Update token cũ
-            storedToken.Token = newRefreshToken;
-            storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                accessToken = newAccessToken,
-                refreshToken = newRefreshToken
-            });
+            return Ok(result);
         }
     }
 }

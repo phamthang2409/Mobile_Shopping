@@ -5,7 +5,7 @@ namespace Shopping_Mobile.Models
     public class User
     {
         [Key] 
-        public int Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         [Required]
         public string UserName { get; set; } = string.Empty;
@@ -25,6 +25,7 @@ namespace Shopping_Mobile.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public string Role { get; set; } = "Customer"; 
+        public string Role { get; set; } = "Customer";
+        public string PasswordHash { get; set; } = string.Empty;
     }
 }

@@ -10,7 +10,6 @@ const MyProfile: React.FC = () => {
   if (!user) {
     return <div className="profile-container">Vui lòng đăng nhập để xem thông tin</div>;
   }
-
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -23,26 +22,26 @@ const MyProfile: React.FC = () => {
       <div className="profile-header">
         <img src="/avatar.png" alt="Avatar" className="large-avatar" />
         <div className="header-info">
-          <h1>{user.UserName || 'Người dùng'}</h1>
-          <p>Email: {user.Email || 'Chưa có email'}</p>
+          <h1>{user.userName || 'Người dùng'}</h1>
+          <p>Email: {user.Email||user.email || 'Chưa có email'}</p>
         </div>
       </div>
 
       <div className="info-list">
         <div className="info-item">
           <label>Date of birth:</label>
-          <div className="val-box">{formatDate(user.Dob ?? "")} </div>
+          <div className="val-box">{formatDate(user.dob ?? "")} </div>
         </div>
 
         <div className="info-item">
           <label>Sex:</label>
-          <div className="val-box">{user.Gender || 'Chưa xác định'} </div>
+          <div className="val-box">{user.Gender||user.gender || 'Chưa xác định'} </div>
         </div>
 
         <div className="info-item">
           <label>Primary Address:</label>
           <div className="val-box underlined">
-            {user.Address || 'Chưa cập nhật địa chỉ'}
+            {user.address || user.Address || 'Chưa cập nhật địa chỉ'}
           </div>
         </div>
 

@@ -27,12 +27,12 @@ namespace Shopping_Mobile.Models
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng")]
         public string Address { get; set; }
 
-        // Trạng thái đơn hàng (0: Chờ xử lý, 1: Đang giao, 2: Hoàn thành, 3: Đã hủy)
         public int Status { get; set; } = 0;
 
         public string? Note { get; set; }
 
         // Quan hệ 1 - Nhiều: Một đơn hàng có nhiều chi tiết sản phẩm
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Bill? Bill { get; set; }
     }
 }

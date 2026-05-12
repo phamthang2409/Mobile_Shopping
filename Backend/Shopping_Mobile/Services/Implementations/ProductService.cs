@@ -1,31 +1,32 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Shopping_Mobile.Data;
 using Shopping_Mobile.DTOs;
-using Shopping_Mobile.Interfaces;
+using Shopping_Mobile.Interfaces; // Hoặc Shopping_Mobile.Services.Interfaces tùy bạn đặt
 using Shopping_Mobile.Models;
+using Shopping_Mobile.Repositories.Interfaces;
 
 namespace Shopping_Mobile.Services.Implementations
 {
     public class ProductService : IProductService
     {
-        private readonly AppDbContext _context;
+        // Thay thế DbContext bằng Repository
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(AppDbContext context, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
-            _context = context;
+            _productRepository = productRepository;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            // Logic lấy dữ liệu giờ giao phó cho Repository
+            return await _productRepository.GetAllAsync();
         }
 
         public async Task<Product?> GetProductByIdAsync(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _productRepository.GetByIdAsync(id);
         }
 
         public async Task<Product> AddProductAsync(ProductDTO productDto)
@@ -33,25 +34,28 @@ namespace Shopping_Mobile.Services.Implementations
             var product = _mapper.Map<Product>(productDto);
             product.CreatedAt = DateTime.Now;
 
-
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            // Gọi hàm Add từ Repo (Nhớ bổ sung hàm AddAsync vào Repo nếu chưa có)
+            await _productRepository.AddAsync(product);
+            await _productRepository.SaveChangesAsync();
             return product;
         }
+
         public async Task<bool> RemoveFromProduct(int productId)
         {
-            var product = await _context.Products.FindAsync(productId);
+            var product = await _productRepository.GetByIdAsync(productId);
             if (product == null) return false;
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            // Nếu trong IProductRepository chưa có hàm Delete, 
+            // Sơn có thể bổ sung hoặc dùng tạm cơ chế xử lý trực tiếp qua Repo
+            await _productRepository.DeleteAsync(product);
+            await _productRepository.SaveChangesAsync();
             return true;
         }
+
         public async Task<IEnumerable<Product>> SearchProductsByNameAsync(string name)
         {
-            return await _context.Products
-        .Where(p => p.ProductName.Contains(name))
-        .ToListAsync();
+            // Repo nên lo cả việc filter/search để Service luôn gọn gàng
+            return await _productRepository.SearchByNameAsync(name);
         }
     }
 }

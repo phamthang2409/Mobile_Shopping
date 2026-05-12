@@ -17,7 +17,7 @@ const initialState: ProductState = {
 export const fetchProducts = createAsyncThunk<
   Product[], 
   void,      
-  { rejectValue: string } // Kiểu dữ liệu khi lỗi
+  { rejectValue: string } 
 >(
   'products/fetchAll',
   async (_, thunkAPI) => {

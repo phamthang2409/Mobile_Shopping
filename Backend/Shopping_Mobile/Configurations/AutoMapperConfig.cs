@@ -8,21 +8,22 @@ namespace Shopping_Mobile.Configurations
     {
         public AutoMapperConfig()
         {
-            // Tạo mapping giữa các lớp Model và DTO
+            // 1. Mapping cho User và Auth
             CreateMap<Models.User, DTOs.UserDTO>().ReverseMap();
-            CreateMap<Models.Product, DTOs.ProductDTO>().ReverseMap();
-            CreateMap<Models.Cart, DTOs.CartDTO>().ReverseMap();
             CreateMap<DTOs.RegisterDTO, Models.User>();
-            CreateMap<CartDTO, CartItem>();
 
-           
-            CreateMap<CartItem, CartItemResponseDTO>()
-                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Product.Price))
-                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Product.ImageUrl));
+            // 2. Mapping cho Product
+            CreateMap<Models.Product, DTOs.ProductDTO>().ReverseMap();
 
-            CreateMap<Cart, CartDTO>().ReverseMap();
+            // 3. Mapping cho Order (Nên thêm để dùng cho trang Lịch sử đơn hàng)
+            //CreateMap<Order, OrderResponseDTO>().ReverseMap();
 
+            //// Mapping chi tiết đơn hàng (Dịch từ Product sang DTO để lấy tên SP, ảnh...)
+            //CreateMap<OrderDetail, OrderDetailResponseDTO>()
+            //    .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
+            //    .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Product.ImageUrl));
+
+            // ĐÃ XÓA: Tất cả mapping liên quan đến Cart và CartItem
         }
     }
 }

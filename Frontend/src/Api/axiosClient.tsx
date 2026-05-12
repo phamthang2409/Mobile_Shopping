@@ -1,69 +1,85 @@
-import axios from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
-const axiosClient = axios.create({
-  baseURL: 'https://localhost:7180/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+interface RefreshResponse {
+    accessToken: string;
+    refreshToken?: string;
+}
+
+const axiosClient: AxiosInstance = axios.create({
+    baseURL: 'https://localhost:7180/api',
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
-// 1. Gắn Access Token vào mỗi Request
+// Đính kèm Token vào Header trước mỗi request
 axiosClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
+    (config: InternalAxiosRequestConfig) => {
+        // Lấy từ key 'token' đúng như thực tế lưu trữ của bạn
+        const token = localStorage.getItem('token'); 
+        if (token && config.headers) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
 );
 
-// 2. Xử lý tự động Refresh khi hết hạn
+// Xử lý phản hồi và tự động Refresh Token khi gặp lỗi 401
 axiosClient.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      try {
-        // Lấy "chìa khóa" để Backend tìm dưới DB
-        const currentRefreshToken = localStorage.getItem('refreshToken');   
-        if (!currentRefreshToken) {
-          throw new Error("No refresh token available in storage");
-        }
-        // Gửi lên Backend để Backend check dưới Database
-        const res = await axios.post('https://localhost:7180/api/Auth/refresh', {
-          RefreshToken: currentRefreshToken 
-        });
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-        // Backend trả về cặp mới 
-        const { accessToken, refreshToken: newRefreshToken } = res.data;
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            
+            if (originalRequest.url?.includes('/Auth/login') || originalRequest.url?.includes('/Auth/refresh')) {
+                return Promise.reject(error);
+            }
 
-        if (accessToken) {
-          // Lưu cặp mới vào lại LocalStorage
-          localStorage.setItem('token', accessToken);
-          if (newRefreshToken) {
-            localStorage.setItem('refreshToken', newRefreshToken);
-          }
-          // Thực hiện lại request cũ với token mới
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return axiosClient(originalRequest);
+            originalRequest._retry = true;
+
+            try {
+                const currentRefreshToken = localStorage.getItem('refreshToken');
+                if (!currentRefreshToken) throw new Error("No refresh token found");
+                const res = await axios.post<RefreshResponse>('https://localhost:7180/api/Auth/refresh', {
+                    RefreshToken: currentRefreshToken 
+                });
+
+                const { accessToken, refreshToken: newRefreshToken } = res.data;
+
+                if (accessToken) {
+                    // Cập nhật lại LocalStorage
+                    localStorage.setItem('token', accessToken);
+                    if (newRefreshToken) {
+                        localStorage.setItem('refreshToken', newRefreshToken);
+                    }
+
+                    // Gán token mới vào request hiện tại
+                    if (originalRequest.headers) {
+                        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                    }
+                    
+                    // Thực hiện lại request bị lỗi
+                    return axiosClient(originalRequest);
+                }
+            } catch (refreshError) {
+                console.error("Session expired:", refreshError);
+                
+                // Xóa sạch thông tin để ép đăng nhập lại
+                localStorage.removeItem('token');
+                localStorage.removeItem('refreshToken');
+                localStorage.removeItem('user'); 
+
+                if (!window.location.pathname.includes('/login')) {
+                    window.location.href = '/login';
+                }
+                return Promise.reject(refreshError);
+            }
         }
-      } catch (refreshError) {
-        // Nếu DB báo token không khớp hoặc hết hạn, dọn dẹp và Logout
-        console.error("Session expired:", refreshError);
-        localStorage.clear(); 
-        
-        if (!window.location.pathname.includes('/login')) {
-          window.location.href = '/login';
-        }
-        return Promise.reject(refreshError);
-      }
+
+        return Promise.reject(error);
     }
-
-    return Promise.reject(error);
-  }
 );
 
 export default axiosClient;

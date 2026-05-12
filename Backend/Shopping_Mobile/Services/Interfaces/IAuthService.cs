@@ -1,9 +1,13 @@
-﻿using Shopping_Mobile.Models;
-using Shopping_Mobile.DTOs;
+﻿using Shopping_Mobile.DTOs;
+using Shopping_Mobile.Models;
 
-
-public interface IAuthService
+namespace Shopping_Mobile.Interfaces
 {
-    Task<User?> RegisterAsync(RegisterDTO authDto);
-    Task<User?> LoginAsync(string username, string password);
+    public interface IAuthService
+    {
+        Task<User?> RegisterAsync(RegisterDTO registerDto);
+        Task<User?> LoginAsync(LoginDTO loginDto);
+        // Hàm xử lý cấp lại token mới
+        Task<AuthResponseDTO?> RefreshTokenAsync(RefreshRequestDTO request);
+    }
 }

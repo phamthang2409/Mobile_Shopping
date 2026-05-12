@@ -1,65 +1,66 @@
 ﻿using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using Shopping_Mobile.Interfaces;
 using Shopping_Mobile.Models;
 using System.Security.Claims;
 using System.Text;
 
-public class TokenProvider
+namespace Shopping_Mobile.Services.Implementations
 {
-    private readonly IConfiguration _configuration;
-
-    public TokenProvider(IConfiguration configuration)
+    public class TokenProvider : ITokenProvider
     {
-        _configuration = configuration;
-    }
+        private readonly IConfiguration _configuration;
 
-    public string Create(User user)
-    {
-        string secretKey = _configuration["Jwt:Secret"]
-            ?? throw new InvalidOperationException("JWT Secret key is not configured.");
-
-        var securityKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(secretKey)
-        );
-
-        var credentials = new SigningCredentials(
-            securityKey,
-            SecurityAlgorithms.HmacSha256
-        );
-
-        int expirationMinutes = _configuration.GetValue<int>("Jwt:ExpirationInMinutes");
-
-        if (expirationMinutes <= 0)
+        public TokenProvider(IConfiguration configuration)
         {
-            expirationMinutes = 1;
+            _configuration = configuration;
         }
 
-        var claims = new[]
+        public string CreateToken(User user)
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName ?? ""),
-            new Claim(ClaimTypes.Role, user.Role ?? "User")
-        };
+            // Lấy secret key từ appsettings.json
+            string secretKey = _configuration["Jwt:Secret"]
+                ?? throw new InvalidOperationException("JWT Secret key is not configured.");
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+            var securityKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(secretKey)
+            );
+
+            var credentials = new SigningCredentials(
+                securityKey,
+                SecurityAlgorithms.HmacSha256
+            );
+
+            // Đảm bảo lấy đúng giá trị thời hạn token
+            int expirationMinutes = _configuration.GetValue<int>("Jwt:ExpirationInMinutes");
+            if (expirationMinutes <= 0) expirationMinutes = 60; // Mặc định 60 phút nếu config lỗi
+
+            // Fix lỗi CS1503: Đảm bảo Claims được khởi tạo đúng cách cho JsonWebTokenHandler
+            var claims = new Dictionary<string, object>
+            {
+                { ClaimTypes.NameIdentifier, user.Id }, // Id giờ đã là string nên rất mượt
+                { ClaimTypes.Name, user.UserName ?? "" },
+                { ClaimTypes.Role, user.Role ?? "User" }
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Claims = claims,
+                Expires = DateTime.UtcNow.AddMinutes(expirationMinutes),
+                SigningCredentials = credentials,
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"]
+            };
+
+            var handler = new JsonWebTokenHandler();
+
+            // Trả về chuỗi JWT hoàn chỉnh
+            return handler.CreateToken(tokenDescriptor);
+        }
+
+        public string GenerateRefreshToken()
         {
-            Subject = new ClaimsIdentity(claims),
-
-            Expires = DateTime.UtcNow.AddMinutes(expirationMinutes),
-
-            SigningCredentials = credentials,
-
-            Issuer = _configuration["Jwt:Issuer"],
-
-            Audience = _configuration["Jwt:Audience"]
-        };
-
-        var handler = new JsonWebTokenHandler();
-
-        return handler.CreateToken(tokenDescriptor);
-    }
-    public string GenerateRefreshToken()
-    {
-        return Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
+            return Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
+        }
     }
 }

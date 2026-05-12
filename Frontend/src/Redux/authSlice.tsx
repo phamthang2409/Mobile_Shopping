@@ -1,19 +1,23 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import authApi from "../Api/authApi";
 import { RootState } from "./store";
-
 interface User {
   id: number;
-  Id?: number;          
   userName: string;
+  email?: string; 
+  dob?: string;
+  gender?: string;
+  address?: string;
+
+  Id?: number;           
   UserName?: string;     
   Email?: string;         
   Dob?: string;           
   Gender?: string;      
   Address?: string;     
+  
   role?: string;
   token?: string;
-  
   accessToken?: string;
   refreshToken?: string;
 }
@@ -41,8 +45,6 @@ const initialState: AuthState = {
 
 //Login
 
-// ================= LOGIN =================
-
 export const loginAction = createAsyncThunk(
   "auth/login",
   async (payload: any, { rejectWithValue }) => {
@@ -58,7 +60,7 @@ export const loginAction = createAsyncThunk(
       //  Dữ liệu User
       const user = data.user || data;
 
-      // LƯU VÀO LOCAL STORAGE (Quan trọng nhất)
+      // LƯU VÀO LOCAL STORAGE
       if (token) {
         localStorage.setItem("token", token);
       }
@@ -81,7 +83,6 @@ export const loginAction = createAsyncThunk(
 );
 
 // Register
-
 export const registerAction = createAsyncThunk(
   "auth/register",
   async (payload: any, { rejectWithValue }) => {

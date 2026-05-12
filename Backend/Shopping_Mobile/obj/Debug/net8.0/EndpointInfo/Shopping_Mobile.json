@@ -98,10 +98,10 @@
         }
       }
     },
-    "/api/Cart/{userId}": {
+    "/api/Order/history/{userId}": {
       "get": {
         "tags": [
-          "Cart"
+          "Order"
         ],
         "parameters": [
           {
@@ -109,8 +109,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -121,10 +120,10 @@
         }
       }
     },
-    "/api/Cart": {
+    "/api/Order": {
       "get": {
         "tags": [
-          "Cart"
+          "Order"
         ],
         "responses": {
           "200": {
@@ -133,10 +132,10 @@
         }
       }
     },
-    "/api/Cart/checkout/{userId}": {
+    "/api/Order/checkout/{userId}": {
       "post": {
         "tags": [
-          "Cart"
+          "Order"
         ],
         "parameters": [
           {
@@ -144,8 +143,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -294,11 +292,66 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -333,10 +386,6 @@
           "quantity": {
             "type": "integer",
             "format": "int32"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
           }
         },
         "additionalProperties": false
@@ -357,6 +406,10 @@
             "nullable": true
           },
           "note": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
             "type": "string",
             "nullable": true
           },
@@ -397,6 +450,9 @@
         "additionalProperties": false
       },
       "RefreshRequestDTO": {
+        "required": [
+          "refreshToken"
+        ],
         "type": "object",
         "properties": {
           "refreshToken": {
@@ -432,6 +488,40 @@
           "dob": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "dob": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

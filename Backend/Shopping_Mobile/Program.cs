@@ -4,7 +4,10 @@ using Microsoft.IdentityModel.Tokens;
 using Shopping_Mobile.Configurations;
 using Shopping_Mobile.Data;
 using Shopping_Mobile.Interfaces;
-using Shopping_Mobile.Services.Implementations; 
+using Shopping_Mobile.Repositories; 
+using Shopping_Mobile.Repositories.Implementations;
+using Shopping_Mobile.Repositories.Interfaces; 
+using Shopping_Mobile.Services.Implementations;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -19,9 +22,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // DI
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<TokenProvider>(); 
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 // Mapper
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperConfig>());
