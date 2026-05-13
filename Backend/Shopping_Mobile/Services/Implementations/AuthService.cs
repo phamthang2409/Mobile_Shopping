@@ -10,14 +10,14 @@ namespace Shopping_Mobile.Services.Implementations
 {
     public class AuthService : IAuthService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokenProvider _tokenProvider;
         private readonly AppDbContext _context;
 
-        public AuthService(IUserRepository userRepository, IMapper mapper, ITokenProvider tokenProvider, AppDbContext context)
+        public AuthService(IUnitOfWork unitOfWork, IMapper mapper, ITokenProvider tokenProvider, AppDbContext context)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokenProvider = tokenProvider;
             _context = context;
@@ -25,33 +25,53 @@ namespace Shopping_Mobile.Services.Implementations
 
         public async Task<User?> RegisterAsync(RegisterDTO registerDto)
         {
-            // 1. Kiểm tra UserName và Email đã tồn tại chưa
-            var existingUserByName = await _userRepository.GetByUserNameAsync(registerDto.UserName);
+            var existingUserByName = await _unitOfWork.Users.GetByUserNameAsync(registerDto.UserName);
             if (existingUserByName != null) return null;
 
-            var existingUserByEmail = await _userRepository.GetByEmailAsync(registerDto.Email);
+            var existingUserByEmail = await _unitOfWork.Users.GetByEmailAsync(registerDto.Email);
             if (existingUserByEmail != null) return null;
 
-            // Map và gán các giá trị mặc định
             var user = _mapper.Map<User>(registerDto);
-            user.Id = Guid.NewGuid().ToString(); 
-            user.PasswordHash = registerDto.PassWord; 
+            user.Id = Guid.NewGuid().ToString();
+            user.PasswordHash = registerDto.PassWord;
 
-            await _userRepository.AddAsync(user);
-            await _userRepository.SaveChangesAsync();
+            await _unitOfWork.Users.AddAsync(user);
+            await _unitOfWork.CompleteAsync();
 
             return user;
         }
 
         public async Task<User?> LoginAsync(LoginDTO loginDto)
         {
-            var user = await _userRepository.GetByUserNameAsync(loginDto.UserName);
+            var user = await _unitOfWork.Users.GetByUserNameAsync(loginDto.UserName);
 
-            // Kiểm tra mật khẩu
             if (user == null || user.PasswordHash != loginDto.PassWord)
                 return null;
 
             return user;
+        }
+
+        public async Task SaveRefreshTokenAsync(string userId, string refreshToken)
+        {
+            //xóa token cũ đê thay token mứi
+            var oldTokens = await _context.RefreshTokens
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
+
+            _context.RefreshTokens.RemoveRange(oldTokens);
+
+            // Tạo Token mới
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = refreshToken,
+                UserId = userId,
+                ExpiryDate = DateTime.UtcNow.AddDays(7),
+                IsRevoked = false
+            };
+
+            await _context.RefreshTokens.AddAsync(refreshTokenEntity);
+
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task<AuthResponseDTO?> RefreshTokenAsync(RefreshRequestDTO request)
@@ -59,29 +79,26 @@ namespace Shopping_Mobile.Services.Implementations
             var storedToken = await _context.RefreshTokens
                 .FirstOrDefaultAsync(x => x.Token == request.RefreshToken && !x.IsRevoked);
 
-            // Kiểm tra nếu token không tồn tại
             if (storedToken == null) return null;
 
             if (storedToken.ExpiryDate < DateTime.UtcNow)
             {
-                _context.RefreshTokens.Remove(storedToken); // Dọn dẹp token hết hạn
-                await _context.SaveChangesAsync();
+                _context.RefreshTokens.Remove(storedToken);
+                await _unitOfWork.CompleteAsync();
                 return null;
             }
 
-            // Tìm User sở hữu Token đó
-            var user = await _userRepository.GetByIdAsync(storedToken.UserId);
+            var user = await _unitOfWork.Users.GetByIdAsync(storedToken.UserId);
             if (user == null) return null;
 
-            // Tạo cặp token mới (Access Token mới và Refresh Token mới)
             var newAccessToken = _tokenProvider.CreateToken(user);
             var newRefreshToken = _tokenProvider.GenerateRefreshToken();
 
             storedToken.Token = newRefreshToken;
-            storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7); // Gia hạn thêm 7 ngày từ hiện tại
+            storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
 
             _context.RefreshTokens.Update(storedToken);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
 
             return new AuthResponseDTO
             {

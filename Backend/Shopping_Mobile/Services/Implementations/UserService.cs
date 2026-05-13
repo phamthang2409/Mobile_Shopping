@@ -8,42 +8,36 @@ namespace Shopping_Mobile.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        // Thay thế UserRepository bằng Unit of Work để quản lý tập trung
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        // 1. Lấy thông tin User và chuyển sang DTO
         public async Task<UserDTO?> GetUserByIdAsync(string id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _unitOfWork.Users.GetByIdAsync(id);
             if (user == null) return null;
-
             return _mapper.Map<UserDTO>(user);
         }
 
-        // 2. Cập nhật thông tin người dùng
         public async Task<bool> UpdateUserAsync(UserDTO userDto)
         {
-            var user = await _userRepository.GetByIdAsync(userDto.Id);
+            var user = await _unitOfWork.Users.GetByIdAsync(userDto.Id);
             if (user == null) return false;
-
-            // Ánh xạ dữ liệu mới từ DTO vào User entity hiện tại
             _mapper.Map(userDto, user);
-
-            await _userRepository.UpdateAsync(user);
-            await _userRepository.SaveChangesAsync();
-            return true;
+            await _unitOfWork.Users.UpdateAsync(user);
+            var result = await _unitOfWork.CompleteAsync();
+            return result > 0;
         }
 
-        // 3. Kiểm tra User tồn tại
         public async Task<bool> UserExistsAsync(string id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _unitOfWork.Users.GetByIdAsync(id);
             return user != null;
         }
     }

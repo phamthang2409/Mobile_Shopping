@@ -28,9 +28,15 @@ namespace Shopping_Mobile.Repositories.Implementations
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
+
         public async Task<User?> GetByUserNameAsync(string userName)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+        }
+
+        public async Task AddAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
         }
 
         public async Task UpdateAsync(User user)
@@ -45,15 +51,5 @@ namespace Shopping_Mobile.Repositories.Implementations
             await Task.CompletedTask;
         }
 
-        public async Task AddAsync(User user)
-        {
-            await _context.Users.AddAsync(user);
-
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

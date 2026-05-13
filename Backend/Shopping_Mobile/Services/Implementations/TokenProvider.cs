@@ -35,7 +35,6 @@ namespace Shopping_Mobile.Services.Implementations
             int expirationMinutes = _configuration.GetValue<int>("Jwt:ExpirationInMinutes");
             if (expirationMinutes <= 0) expirationMinutes = 60; // Mặc định 60 phút nếu config lỗi
 
-            // Fix lỗi CS1503: Đảm bảo Claims được khởi tạo đúng cách cho JsonWebTokenHandler
             var claims = new Dictionary<string, object>
             {
                 { ClaimTypes.NameIdentifier, user.Id }, // Id giờ đã là string nên rất mượt

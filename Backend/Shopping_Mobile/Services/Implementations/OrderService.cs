@@ -4,48 +4,31 @@ using Shopping_Mobile.Data;
 using Shopping_Mobile.DTOs;
 using Shopping_Mobile.Interfaces;
 using Shopping_Mobile.Models;
-using Shopping_Mobile.Repositories.Interfaces; 
+using Shopping_Mobile.Repositories.Interfaces;
 
 namespace Shopping_Mobile.Services.Implementations
 {
     public class OrderService : IOrderService
     {
-        private readonly AppDbContext _context;
-        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public OrderService(AppDbContext context, IOrderRepository orderRepository, IMapper mapper)
+        public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
-            _orderRepository = orderRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        // 1. THAY THẾ GetCart BẰNG LẤY LỊCH SỬ ĐƠN HÀNG
         public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
         {
-            // Lấy danh sách đơn hàng kèm theo Chi tiết sản phẩm và Hóa đơn (Bill)
-            return await _context.Orders
-                .Include(o => o.OrderDetails)
-                    .ThenInclude(od => od.Product)
-                .Include(o => o.Bill)
-                .Where(o => o.UserId == userId)
-                .OrderByDescending(o => o.OrderDate)
-                .ToListAsync();
+            var orders = await _unitOfWork.Orders.GetOrdersByUserIdAsync(userId);
+            return orders.ToList();
         }
-
-        // ĐÃ XÓA: Hàm ProcessCheckoutAsync vì không còn dùng bảng Cart/CartItems nữa.
 
         public async Task<IEnumerable<Order>> GetAllOrderAsync()
         {
-            return await _context.Orders
-                .Include(o => o.OrderDetails)
-                .Include(o => o.Bill)
-                .OrderByDescending(o => o.OrderDate)
-                .ToListAsync();
+            return await _unitOfWork.Orders.GetAllOrdersAsync();
         }
-
-        // 2. LOGIC CHECKOUT MỚI: Tính tiền từ DB, Tạo Bill, Gọi Repository
         public async Task<(bool IsSuccess, string Message)> CreateOrderAsync(string userId, OrderRequestDTO request)
         {
             if (request == null || request.Items == null || !request.Items.Any())
@@ -54,12 +37,17 @@ namespace Shopping_Mobile.Services.Implementations
             decimal totalAmount = 0;
             var orderDetails = new List<OrderDetail>();
 
-            // Lấy giá chuẩn từ Database (Bảo mật: KHÔNG dùng x.Price từ DTO do Frontend gửi lên)
+            //  Kiểm tra tồn kho và tính tổng tiền
             foreach (var item in request.Items)
             {
-                var product = await _context.Products.FindAsync(item.ProductId);
+                var product = await _unitOfWork.Products.GetByIdAsync(item.ProductId);
                 if (product == null)
                     return (false, $"Sản phẩm ID {item.ProductId} không tồn tại.");
+
+                // Cập nhật Stock ngay trong Memory trước khi tạo Order
+                bool stockUpdated = await _unitOfWork.Products.UpdateStockAsync(item.ProductId, item.Quantity);
+                if (!stockUpdated)
+                    return (false, $"Sản phẩm '{product.ProductName}' không đủ số lượng trong kho.");
 
                 totalAmount += product.Price * item.Quantity;
 
@@ -67,24 +55,24 @@ namespace Shopping_Mobile.Services.Implementations
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    Price = product.Price // Gán giá gốc từ DB
+                    Price = product.Price
                 });
             }
 
-            // Tạo đối tượng Order
+            // Khởi tạo thực thể Order
             var newOrder = new Order
             {
-                UserId = userId, // Lưu ý: userId ở đây là string theo chuẩn Controller mới
+                UserId = userId,
                 OrderDate = DateTime.Now,
                 TotalAmount = totalAmount,
-                Name = request.Name,
-                Address = request.Address,
-                Phone = request.Phone,
+                Name = request.Name ?? "Khách hàng",
+                Address = request.Address ?? string.Empty,
+                Phone = request.Phone ?? string.Empty,
                 Note = request.Note,
-                Status = 0 // 0: Đơn mới chờ xử lý
+                Status = 0 
             };
 
-            // Tạo đối tượng Bill kèm theo
+            // Khởi tạo thực thể Bill
             string paymentMethod = string.IsNullOrEmpty(request.PaymentMethod) ? "COD" : request.PaymentMethod;
             var newBill = new Bill
             {
@@ -92,18 +80,21 @@ namespace Shopping_Mobile.Services.Implementations
                 TotalAmount = totalAmount,
                 PaymentMethod = paymentMethod
             };
-
             try
             {
-                // Giao việc lưu Transaction xuống Repository
-                await _orderRepository.CreateOrderAsync(newOrder, orderDetails, newBill);
+                await _unitOfWork.Orders.CreateOrderAsync(newOrder, orderDetails, newBill);
 
-                return (true, "Đặt hàng và xuất hóa đơn thành công!");
+                var result = await _unitOfWork.CompleteAsync();
+
+                if (result > 0)
+                    return (true, "Đặt hàng và xuất hóa đơn thành công!");
+
+                return (false, "Không có thay đổi nào được lưu vào hệ thống.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Có thể dùng ILogger để log lỗi chi tiết tại đây nếu cần
-                return (false, "Lỗi hệ thống khi lưu đơn hàng. Vui lòng thử lại sau.");
+                var innerMessage = ex.InnerException != null ? $" | Chi tiết: {ex.InnerException.Message}" : "";
+                return (false, $"Lỗi hệ thống khi lưu: {ex.Message}{innerMessage}");
             }
         }
     }

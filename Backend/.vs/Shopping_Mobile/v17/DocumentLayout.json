@@ -3,104 +3,120 @@
   "WorkspaceRootPath": "E:\\Mobile_Shopping\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\dtos\\refreshrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\dtos\\refreshrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\implementations\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\implementations\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\itokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\itokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\implementations\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\implementations\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\interfaces\\iorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\interfaces\\iorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\implementations\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\implementations\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\implementations\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\implementations\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\implementations\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\implementations\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\repositories\\implementations\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\repositories\\implementations\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\implementations\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\implementations\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\itokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\itokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\dtos\\orderrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\dtos\\orderrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\dtos\\refreshrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\dtos\\refreshrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -109,10 +125,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\configurations\\automapperconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\configurations\\automapperconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|solutionrelative:shopping_mobile\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F28B5A5E-A9C4-40E9-A8B1-7A667E406800}|Shopping_Mobile\\Shopping_Mobile.csproj|e:\\mobile_shopping\\backend\\shopping_mobile\\models\\bill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -140,25 +152,90 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 198,
-          "SelectedChildIndex": 0,
+          "DockedWidth": 194,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IOrderRepository.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T08:59:15.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwCkAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T02:44:15.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\UserService.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\UserService.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\UserService.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\UserService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T03:00:40.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T02:43:39.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAcwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-12T02:41:13.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "AuthController.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\AuthController.cs",
               "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Shopping_Mobile\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAgwEgAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAYwDAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-07T03:46:09.158Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 21,
               "Title": "IUserService.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\IUserService.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Interfaces\\IUserService.cs",
@@ -171,20 +248,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\UserRepository.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwCIAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 25,
+              "Title": "User.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\User.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\User.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Models\\User.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAwwB4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T02:43:39.948Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-06T13:13:51.139Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 27,
               "Title": "RefreshToken.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\RefreshToken.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\RefreshToken.cs",
@@ -192,25 +268,11 @@
               "RelativeToolTip": "Shopping_Mobile\\Models\\RefreshToken.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T09:06:20.958Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T09:06:20.958Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "User.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\User.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\User.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Models\\User.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T13:13:51.139Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 28,
               "Title": "UserDTO.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\UserDTO.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\DTOs\\UserDTO.cs",
@@ -218,64 +280,11 @@
               "RelativeToolTip": "Shopping_Mobile\\DTOs\\UserDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T04:02:09.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T04:02:09.686Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\UserService.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\UserService.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\UserService.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\UserService.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwBIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T03:00:40.676Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\ProductRepository.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAQwDcAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T02:41:13.74Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "ProductService.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\ProductService.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB8AAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T02:44:15.803Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "IOrderRepository.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Interfaces\\IOrderRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T08:59:15.755Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 29,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Data\\AppDbContext.cs",
@@ -287,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 30,
               "Title": "AutoMapperConfig.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Configurations\\AutoMapperConfig.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Configurations\\AutoMapperConfig.cs",
@@ -299,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "OrderDetail.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\OrderDetail.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\OrderDetail.cs",
@@ -311,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\appsettings.json",
               "RelativeDocumentMoniker": "Shopping_Mobile\\appsettings.json",
@@ -323,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 35,
               "Title": "secrets.json",
               "DocumentMoniker": "C:\\Users\\phamn\\AppData\\Roaming\\Microsoft\\UserSecrets\\e55873ef-043e-4c49-ac74-fcf82c84282e\\secrets.json",
               "ToolTip": "C:\\Users\\phamn\\AppData\\Roaming\\Microsoft\\UserSecrets\\e55873ef-043e-4c49-ac74-fcf82c84282e\\secrets.json",
@@ -334,130 +343,194 @@
           ]
         },
         {
-          "DockedWidth": 202,
-          "SelectedChildIndex": 0,
+          "DockedWidth": 206,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "AuthService.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\AuthService.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\AuthService.cs",
               "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\AuthService.cs",
               "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\AuthService.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAAEkAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAA4wD8AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-11T08:03:38.844Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\ProductController.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAiwDAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T08:31:42.05Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IAuthService.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T07:58:34.922Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RefreshRequestDTO.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
-              "RelativeToolTip": "Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T14:03:57.592Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Program.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Program.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Program.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T07:24:50.076Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "IUserRepository.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IUserRepository.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Interfaces\\IUserRepository.cs",
               "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IUserRepository.cs",
               "RelativeToolTip": "Shopping_Mobile\\Repositories\\Interfaces\\IUserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-11T10:07:09.643Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
               "Title": "OrderService.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\OrderService.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\OrderService.cs",
               "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\OrderService.cs",
               "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\OrderService.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAewGIAAAAoAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-08T00:33:17.917Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Services\\Interfaces\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T07:58:34.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T10:06:57.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Interfaces\\IUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-13T02:31:54.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\UnitOfWork.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\UnitOfWork.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\UnitOfWork.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAmwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-13T02:32:46.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 12,
+              "Title": "OrderRepository.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAgwDoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-13T02:34:58.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\OrderController.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAUwDUAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T07:05:18.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\UserController.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Controllers\\UserController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T08:14:24.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\ProductController.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T08:31:42.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "TokenProvider.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\TokenProvider.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Implementations\\TokenProvider.cs",
               "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Implementations\\TokenProvider.cs",
               "RelativeToolTip": "Shopping_Mobile\\Services\\Implementations\\TokenProvider.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAcwEAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-12T04:01:20.476Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ITokenProvider.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "DocumentIndex": 18,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Program.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Program.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Program.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-12T04:00:57.402Z",
+              "WhenOpened": "2026-05-07T07:24:50.076Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "IOrderService.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\IOrderService.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Interfaces\\IOrderService.cs",
@@ -470,58 +543,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\OrderController.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAAAwCQAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T07:05:18.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Controllers\\UserController.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAcwB4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T08:14:24.478Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 20,
-              "Title": "IProductRepository.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Interfaces\\IProductRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Title": "ITokenProvider.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Services\\Interfaces\\ITokenProvider.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T10:06:57.875Z",
+              "WhenOpened": "2026-05-12T04:00:57.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Order.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\Order.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\Order.cs",
+              "RelativeToolTip": "Shopping_Mobile\\Models\\Order.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAzwCMAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T08:33:35.629Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 23,
-              "Title": "OrderRepository.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Repositories\\Implementations\\OrderRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T09:00:02.744Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
               "Title": "OrderRequestDTO.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\OrderRequestDTO.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\DTOs\\OrderRequestDTO.cs",
@@ -529,23 +577,37 @@
               "RelativeToolTip": "Shopping_Mobile\\DTOs\\OrderRequestDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T08:33:00.358Z"
+              "WhenOpened": "2026-05-11T08:33:00.358Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Order.cs",
-              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\Order.cs",
-              "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\Order.cs",
-              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\Order.cs",
-              "RelativeToolTip": "Shopping_Mobile\\Models\\Order.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAvAAAAAAAAAA==",
+              "DocumentIndex": 24,
+              "Title": "ProductDTO.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\ProductDTO.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\DTOs\\ProductDTO.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\ProductDTO.cs",
+              "RelativeToolTip": "Shopping_Mobile\\DTOs\\ProductDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T08:33:35.629Z"
+              "WhenOpened": "2026-05-13T02:03:59.367Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 26,
+              "Title": "RefreshRequestDTO.cs",
+              "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
+              "RelativeDocumentMoniker": "Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
+              "ToolTip": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
+              "RelativeToolTip": "Shopping_Mobile\\DTOs\\RefreshRequestDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T14:03:57.592Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
               "Title": "Bill.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\Bill.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\Bill.cs",
@@ -557,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "Product.cs",
               "DocumentMoniker": "E:\\Mobile_Shopping\\Backend\\Shopping_Mobile\\Models\\Product.cs",
               "RelativeDocumentMoniker": "Shopping_Mobile\\Models\\Product.cs",

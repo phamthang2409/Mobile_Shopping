@@ -1,6 +1,7 @@
 ﻿using Shopping_Mobile.Data;
 using Shopping_Mobile.Models;
 using Shopping_Mobile.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shopping_Mobile.Repositories.Implementations
 {
@@ -15,31 +16,49 @@ namespace Shopping_Mobile.Repositories.Implementations
 
         public async Task<bool> CreateOrderAsync(Order order, List<OrderDetail> orderDetails, Bill bill)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
-
-                foreach (var detail in orderDetails)
-                {
-                    detail.OrderId = order.Id;
-                }
-                _context.OrderDetails.AddRange(orderDetails);
-
-                bill.OrderId = order.Id;
-                _context.Bills.Add(bill);
-
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
+                order.OrderDetails = orderDetails;
+                order.Bill = bill;
+                await _context.Orders.AddAsync(order);
 
                 return true;
             }
-            catch
+            catch (Exception)
             {
-                await transaction.RollbackAsync();
-                throw;
+                return false;
             }
+        }
+        public async Task<Order?> GetOrderByIdAsync(int id)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Bill)
+                .FirstOrDefaultAsync(o => o.Id == id);
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Bill)
+                .Where(o => o.UserId == userId)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Bill)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            _context.Orders.Update(order);
         }
     }
 }

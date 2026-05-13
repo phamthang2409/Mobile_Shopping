@@ -26,6 +26,7 @@ namespace Shopping_Mobile.Repositories.Implementations
 
         public async Task AddAsync(Product product)
         {
+            // Chỉ thêm vào Change Tracker
             await _context.Products.AddAsync(product);
         }
 
@@ -46,16 +47,13 @@ namespace Shopping_Mobile.Repositories.Implementations
         public async Task<bool> UpdateStockAsync(int productId, int quantity)
         {
             var product = await _context.Products.FindAsync(productId);
-            if (product == null || product.Stock < quantity) return false;
+
+            if (product == null || product.Stock < quantity)
+                return false;
 
             product.Stock -= quantity;
-            return true;
-        }
 
-        // Lưu mọi thay đổi xuống Database
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

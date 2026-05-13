@@ -68,6 +68,7 @@ namespace Shopping_Mobile.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
+                
             }
         }
     }

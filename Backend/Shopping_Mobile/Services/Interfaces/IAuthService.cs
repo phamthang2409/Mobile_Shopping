@@ -9,5 +9,6 @@ namespace Shopping_Mobile.Interfaces
         Task<User?> LoginAsync(LoginDTO loginDto);
         // Hàm xử lý cấp lại token mới
         Task<AuthResponseDTO?> RefreshTokenAsync(RefreshRequestDTO request);
+        Task SaveRefreshTokenAsync(string id, string refreshTokenValue);
     }
 }
