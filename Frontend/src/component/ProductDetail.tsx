@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../Redux/store';
 import '../CSS/ProductDetail.css';
+import axiosClient from '../Api/axiosClient'; // Sử dụng đúng tên file axiosClient đã fix ở bước trước
 
 interface ProductDetailProps {
   product: any;
@@ -13,25 +14,42 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   
-  // State quản lý số lượng hiển thị trên Badge giỏ hàng
   const [cartCount, setCartCount] = useState(0);
-
   const DEFAULT_IMG = "https://placehold.jp/24/cccccc/ffffff/400x400.png?text=No+Image";
 
-  // Hàm tính toán số lượng từ LocalStorage để hiển thị badge
-  const updateCartCount = () => {
+  // hàm cập nhật
+  // Dùng useCallback để tránh render thừa và dễ dàng gọi lại
+  const updateCartCount = useCallback(async () => {
     const userId = user?.id || user?.Id;
-    if (userId) {
-      const storageKey = `cart_${userId}`;
-      const cart = JSON.parse(localStorage.getItem(storageKey) || "[]");
-      const total = cart.reduce((acc: number, item: any) => acc + item.quantity, 0);
-      setCartCount(total);
+    
+    if (!userId) {
+      setCartCount(0);
+      return;
     }
-  };
 
-  useEffect(() => {
-    updateCartCount();
+    try {
+      const response = await axiosClient.get(`/Cart`);
+      
+      if (response.status === 200) {
+        const cartItems = response.data;
+        // Tính tổng quantity từ mảng sản phẩm trả về
+        const total = cartItems.reduce((acc: number, item: any) => acc + (item.quantity || 0), 0);
+        setCartCount(total);
+      }
+    } catch (error) {
+      console.error("Lỗi lấy giỏ hàng:", error);
+      // Fallback: Nếu lỗi do mạng, lấy tạm từ LocalStorage để người dùng đỡ hoang mang
+      const storageKey = `cart_${userId}`;
+      const localData = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      const localTotal = localData.reduce((acc: number, item: any) => acc + (item.quantity || 0), 0);
+      setCartCount(localTotal);
+    }
   }, [user]);
+
+  // Cập nhật Badge khi component mount hoặc user thay đổi
+  useEffect(() => { 
+    updateCartCount();
+  }, [updateCartCount]);
 
   if (!product) return null;
 
@@ -39,49 +57,58 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
     return product.productName || product.ProductName || product.name || product.Name || "Điện thoại";
   };
 
-  // Hàm Thêm vào giỏ hàng
-  const handleAddToCart = () => {
+  // thêm vào giỏ hàng
+  const handleAddToCart = async () => {
+    if (!user) {
+      alert("Bạn cần đăng nhập để thêm vào giỏ hàng nhé!");
+      navigate('/login'); 
+      return;
+    }
+
+    const productId = product.id || product.Id;
+
     try {
-      if (!user) {
-        alert("Đăng nhập để thêm vào giỏ hàng nhé!");
-        localStorage.setItem('forceLogin', 'true'); 
-        window.location.reload();
-        return;
+      //  Gọi API thêm vào giỏ.
+      const response = await axiosClient.post(`/Cart/add`, {
+        productId: productId,
+        quantity: 1
+      });
+
+      if (response.status === 200 || response.status === 201) {
+        await updateCartCount();
+        
+        alert(`Đã thêm ${getProductName()} vào giỏ hàng thành công!`);
+        
+        //  (Tùy chọn) Cập nhật LocalStorage để đồng bộ cache
+        const userId = user.id || user.Id;
+        const storageKey = `cart_${userId}`;
+        const localCart = JSON.parse(localStorage.getItem(storageKey) || "[]");
+        const existingIndex = localCart.findIndex((i: any) => (i.productId || i.ProductId) === productId);
+        
+        if (existingIndex > -1) {
+          localCart[existingIndex].quantity += 1;
+        } else {
+          localCart.push({
+            productId,
+            productName: getProductName(),
+            price: product.price || product.Price,
+            imageUrl: product.imageUrl || product.ImageUrl,
+            quantity: 1
+          });
+        }
+        localStorage.setItem(storageKey, JSON.stringify(localCart));
       }
-
-      const productId = product.id || product.Id;
-      const storageKey = `cart_${user.id || user.Id}`;
-      const localCart = localStorage.getItem(storageKey);
-      let cartItems = localCart ? JSON.parse(localCart) : [];
-
-      const existingItemIndex = cartItems.findIndex((item: any) => item.productId === productId);
-
-      if (existingItemIndex > -1) {
-        cartItems[existingItemIndex].quantity += 1;
-      } else {
-        cartItems.push({
-          productId: productId,
-          productName: getProductName(), 
-          price: product.price || product.Price,
-          imageUrl: product.imageUrl || product.ImageUrl,
-          quantity: 1
-        });
+    } catch (error: any) {
+      if (error.response?.status !== 401) {
+        alert("Có lỗi xảy ra khi thêm vào giỏ hàng. Vui lòng thử lại!");
       }
-
-      localStorage.setItem(storageKey, JSON.stringify(cartItems));
-      updateCartCount();
-      alert(`Đã thêm ${getProductName()} vào giỏ hàng!`);
-    } catch (error) {
-      console.error("Lỗi thêm giỏ hàng:", error);
     }
   };
 
-  // Hàm Mua Ngay
   const handleBuyNow = () => {
     if (!user) {
-      alert("Đăng nhập để thực hiện thanh toán nhé!");
-      localStorage.setItem('forceLogin', 'true');
-      window.location.reload();
+      alert("Bạn vui lòng đăng nhập để thanh toán nhé!");
+      navigate('/login');
       return;
     }
 
@@ -93,7 +120,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
       quantity: 1
     };
 
-    navigate('/checkout', { state: { items: [buyNowItem] } });
+    navigate('/checkout', { state: { items: [buyNowItem], fromCart: false } });
   };
 
   return (

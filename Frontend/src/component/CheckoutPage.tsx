@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import cartApi from '../Api/cartApi'; 
+import axiosClient from '../Api/axiosClient'; // Sử dụng axiosClient chung để có Interceptor Token
 import '../CSS/CheckoutPage.css';
 
 const CheckoutPage: React.FC = () => {
@@ -8,7 +8,10 @@ const CheckoutPage: React.FC = () => {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     
+    // items: Danh sách sản phẩm thanh toán
+    // fromCart: Nhận diện nguồn từ Giỏ hàng hay Mua ngay
     const items = state?.items || [];
+    const fromCart = state?.fromCart || false;
     
     const [info, setInfo] = useState({
         name: '',      
@@ -23,7 +26,6 @@ const CheckoutPage: React.FC = () => {
     const total = subTotal + (subTotal * 0.1);
 
     const handleOrder = async () => {
-        
         if (!info.name.trim() || !info.address.trim() || !info.phone.trim()) {
             alert("Vui lòng nhập đầy đủ Tên, Địa chỉ và Số điện thoại!");
             return;
@@ -41,12 +43,10 @@ const CheckoutPage: React.FC = () => {
             }
             
             const user = JSON.parse(userData);
-            // Lấy userId (Thường là string GUID từ Identity)
-            const userId = user.id || user.Id || (user.User && user.User.id);
+            const userId = user.id || user.Id;
 
             if (!userId) {
                 alert("Lỗi hệ thống: Không xác định được danh tính người dùng.");
-                navigate('/login');
                 return;
             }
 
@@ -63,38 +63,23 @@ const CheckoutPage: React.FC = () => {
                 }))
             };
 
-            // Gọi API Checkout qua axiosClient 
-            const response = await cartApi.checkout(userId, orderData);
+            // FIX LỖI 404: Gọi đúng Route ở Backend là /api/Order/checkout/{userId}
+            const response = await axiosClient.post(`/Order/checkout/${userId}`, orderData);
 
-            if (response) {
+            if (response.status === 200 || response.status === 201) {
                 alert("🎉 Chúc mừng Bạn! Đơn hàng của bạn đã đặt thành công.");
                 
-                //  Dọn dẹp giỏ hàng cục bộ (Local Storage)
-                const cartKey = `cart_${userId}`;
-                const localCartData = localStorage.getItem(cartKey);
+                // LOGIC XỬ LÝ GIỎ HÀNG SAU KHI ĐẶT HÀNG 
+                if (fromCart) {
+                    await axiosClient.delete('/Cart/clear');
+                    // Dọn dẹp giỏ hàng trong LocalStorage
+                    const cartKey = `cart_${userId}`;
+                    localStorage.removeItem(cartKey);
 
-                if (localCartData) {
-                    const fullCart = JSON.parse(localCartData);
-                    
-                    // Lọc bỏ những sản phẩm vừa mới thanh toán xong
-                    const remainingCart = fullCart.filter((cartItem: any) => {
-                        const cartItemId = cartItem.productId || cartItem.id;
-                        return !items.some((orderedItem: any) => 
-                            (orderedItem.productId || orderedItem.id) === cartItemId
-                        );
-                    });
-
-                    if (remainingCart.length > 0) {
-                        localStorage.setItem(cartKey, JSON.stringify(remainingCart));
-                    } else {
-                        localStorage.removeItem(cartKey);
-                    }
+                    window.dispatchEvent(new Event("cartUpdated"));
                 }
-
-                // Thông báo cho các component khác (Navbar/Cart icon) cập nhật lại số lượng
-                window.dispatchEvent(new Event("storage"));
                 
-               
+                window.dispatchEvent(new Event("storage"));
                 navigate('/'); 
             }
 
@@ -133,7 +118,7 @@ const CheckoutPage: React.FC = () => {
                         </div>
                         <div className="input-group">
                             <label>Địa chỉ nhận hàng</label>
-                            <textarea rows={2} placeholder="Số nhà, tên đường, phường/xã..." value={info.address} onChange={e => setInfo({...info, address: e.target.value})} disabled={isSubmitting}/>
+                            <textarea rows={2} placeholder="Địa chỉ cụ thể..." value={info.address} onChange={e => setInfo({...info, address: e.target.value})} disabled={isSubmitting}/>
                         </div>
                         <div className="input-group">
                             <label>Ghi chú</label>
@@ -149,7 +134,7 @@ const CheckoutPage: React.FC = () => {
                     </div>
 
                     <div className="checkout-section summary-section">
-                        <h3><i className="fas fa-shopping-basket"></i> Tóm tắt sản phẩm</h3>
+                        <h3><i className="fas fa-shopping-basket"></i> Tóm tắt đơn hàng</h3>
                         <div className="items-review">
                             {items.map((item: any) => (
                                 <div key={item.productId || item.id} className="review-item">

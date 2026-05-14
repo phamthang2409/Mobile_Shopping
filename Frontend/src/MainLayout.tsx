@@ -14,32 +14,37 @@ const MainLayout: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    // Ưu tiên đọc từ sessionStorage để đồng bộ với App.tsx
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    } else {
+      // Nếu sessionStorage trống, kiểm tra và dọn dẹp localStorage cũ
+      localStorage.removeItem('user');
+      setUser(null);
     }
   }, []);
 
   const handleLogout = () => {
     if (window.confirm("Bạn muốn đăng xuất à?")) {
-      localStorage.removeItem('user');
-      localStorage.removeItem('forceLogin'); 
+      // Xóa sạch cả 2 nơi để không bị dính "admin" cũ
+      sessionStorage.clear();
+      localStorage.clear();
       setUser(null);
-      window.location.reload(); 
+      window.location.href = '/'; 
     }
   };
 
-  // Hàm chuyển hướng sang trang Đăng nhập
   const handleGoToLogin = () => {
-    localStorage.setItem('forceLogin', 'true');
-    localStorage.setItem('isRegistering', 'false'); 
+    // Dùng sessionStorage để App.tsx nhận diện được lệnh mở màn hình Login
+    sessionStorage.setItem('forceLogin', 'true');
+    sessionStorage.setItem('isRegistering', 'false'); 
     window.location.reload();
   };
 
-  // Hàm chuyển hướng sang trang Đăng ký
   const handleGoToRegister = () => {
-    localStorage.setItem('forceLogin', 'true');
-    localStorage.setItem('isRegistering', 'true'); 
+    sessionStorage.setItem('forceLogin', 'true');
+    sessionStorage.setItem('isRegistering', 'true'); 
     window.location.reload();
   };
 
@@ -70,7 +75,7 @@ const MainLayout: React.FC = () => {
           {user ? (
             <div className="user-logged-in">
               <div className="user-info" onClick={() => handleTabChange('profile')}>
-                <span className="user-display-name">Chào, {user.userName}</span>
+                <span className="user-display-name">Chào, {user.userName || user.Name}</span>
                 <img src="/avatar.png" alt="Avatar" className="mini-avatar" />
               </div>
               <button className="btn-logout-header" onClick={handleLogout}>Đăng xuất</button>
