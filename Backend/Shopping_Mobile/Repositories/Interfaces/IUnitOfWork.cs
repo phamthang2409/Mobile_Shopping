@@ -4,7 +4,8 @@
     {
         IOrderRepository Orders { get; }
         IProductRepository Products { get; }
-        IUserRepository Users { get; }      
+        IUserRepository Users { get; }
+        ICartRepository Carts { get; }
 
         Task<int> CompleteAsync(); 
     }

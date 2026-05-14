@@ -9,6 +9,7 @@ namespace Shopping_Mobile.Interfaces
         Task<List<Order>> GetOrdersByUserIdAsync(string userId);
         Task<(bool IsSuccess, string Message)> CreateOrderAsync(string userId, OrderRequestDTO request);
         Task<IEnumerable<Order>> GetAllOrderAsync();
+        Task<bool> UpdateOrderStatusAsync(int orderId, int status);
 
     }
 }

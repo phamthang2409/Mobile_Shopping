@@ -60,5 +60,14 @@ namespace Shopping_Mobile.Repositories.Implementations
         {
             _context.Orders.Update(order);
         }
+        public async Task<Order> GetByIdAsync(int id)
+        {
+            return await _context.Orders.FindAsync(id);
+        }
+
+        public void Update(Order order)
+        {
+            _context.Orders.Update(order);
+        }
     }
 }

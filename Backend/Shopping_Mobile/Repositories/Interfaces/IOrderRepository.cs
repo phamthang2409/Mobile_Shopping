@@ -9,5 +9,7 @@ namespace Shopping_Mobile.Repositories.Interfaces
         Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId);
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         void UpdateOrder(Order order);
+        Task<Order> GetByIdAsync(int id);
+        void Update(Order order);
     }
 }

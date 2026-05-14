@@ -11,6 +11,7 @@ namespace Shopping_Mobile.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         // THÊM: Bảng Bill để lưu hóa đơn

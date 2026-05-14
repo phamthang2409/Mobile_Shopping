@@ -38,7 +38,6 @@ namespace Shopping_Mobile.Controllers
             return Ok(result);
         }
 
-
         [HttpDelete("{productId}")]
         public async Task<IActionResult> RemoveFromProduct(int productId)
         {

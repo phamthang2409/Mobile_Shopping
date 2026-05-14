@@ -16,15 +16,14 @@ namespace Shopping_Mobile.Controllers
             _orderService = orderService;
         }
 
-        // lịch sử đơn hàng của user
+        // Lịch sử đơn hàng của user
         [HttpGet("history/{userId}")]
         public async Task<IActionResult> GetUserOrders(string userId)
         {
             try
             {
                 var orders = await _orderService.GetOrdersByUserIdAsync(userId);
-
-                if (orders == null) return Ok(new List<object>()); 
+                if (orders == null) return Ok(new List<object>());
                 return Ok(orders);
             }
             catch (Exception ex)
@@ -40,6 +39,28 @@ namespace Shopping_Mobile.Controllers
             {
                 var orders = await _orderService.GetAllOrderAsync();
                 return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
+            }
+        }
+
+
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] int status)
+        {
+            try
+            {
+                // Gọi sang Service để thực hiện update vào DB
+                var result = await _orderService.UpdateOrderStatusAsync(id, status);
+
+                if (!result)
+                {
+                    return NotFound(new { message = "Không tìm thấy đơn hàng!" });
+                }
+
+                return Ok(new { message = "Cập nhật trạng thái thành công!" });
             }
             catch (Exception ex)
             {
@@ -68,7 +89,6 @@ namespace Shopping_Mobile.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
-                
             }
         }
     }

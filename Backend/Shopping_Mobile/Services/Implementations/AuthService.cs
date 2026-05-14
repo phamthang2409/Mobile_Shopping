@@ -5,6 +5,7 @@ using Shopping_Mobile.Models;
 using Shopping_Mobile.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Shopping_Mobile.Data;
+using BCrypt.Net;
 
 namespace Shopping_Mobile.Services.Implementations
 {
@@ -25,15 +26,19 @@ namespace Shopping_Mobile.Services.Implementations
 
         public async Task<User?> RegisterAsync(RegisterDTO registerDto)
         {
+            // Kiểm tra Username tồn tại
             var existingUserByName = await _unitOfWork.Users.GetByUserNameAsync(registerDto.UserName);
             if (existingUserByName != null) return null;
 
+            // Kiểm tra Email tồn tại
             var existingUserByEmail = await _unitOfWork.Users.GetByEmailAsync(registerDto.Email);
             if (existingUserByEmail != null) return null;
 
             var user = _mapper.Map<User>(registerDto);
             user.Id = Guid.NewGuid().ToString();
-            user.PasswordHash = registerDto.PassWord;
+
+            // --- BCRYPT HASHING ---
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.PassWord);
 
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.CompleteAsync();
@@ -45,15 +50,18 @@ namespace Shopping_Mobile.Services.Implementations
         {
             var user = await _unitOfWork.Users.GetByUserNameAsync(loginDto.UserName);
 
-            if (user == null || user.PasswordHash != loginDto.PassWord)
+            // BCRYPT VERIFY 
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.PassWord, user.PasswordHash))
+            {
                 return null;
+            }
 
             return user;
         }
 
         public async Task SaveRefreshTokenAsync(string userId, string refreshToken)
         {
-            //xóa token cũ đê thay token mứi
+            // Xóa token cũ để thay token mới 
             var oldTokens = await _context.RefreshTokens
                 .Where(t => t.UserId == userId)
                 .ToListAsync();
@@ -70,7 +78,6 @@ namespace Shopping_Mobile.Services.Implementations
             };
 
             await _context.RefreshTokens.AddAsync(refreshTokenEntity);
-
             await _unitOfWork.CompleteAsync();
         }
 
@@ -80,7 +87,6 @@ namespace Shopping_Mobile.Services.Implementations
                 .FirstOrDefaultAsync(x => x.Token == request.RefreshToken && !x.IsRevoked);
 
             if (storedToken == null) return null;
-
             if (storedToken.ExpiryDate < DateTime.UtcNow)
             {
                 _context.RefreshTokens.Remove(storedToken);
@@ -91,9 +97,11 @@ namespace Shopping_Mobile.Services.Implementations
             var user = await _unitOfWork.Users.GetByIdAsync(storedToken.UserId);
             if (user == null) return null;
 
+            // Tạo bộ Token mới
             var newAccessToken = _tokenProvider.CreateToken(user);
             var newRefreshToken = _tokenProvider.GenerateRefreshToken();
 
+            // Cập nhật Refresh Token hiện tại
             storedToken.Token = newRefreshToken;
             storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
 

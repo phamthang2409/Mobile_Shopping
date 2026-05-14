@@ -9,13 +9,13 @@ namespace Shopping_Mobile.Models
         public int Id { get; set; }
 
         public int OrderId { get; set; }
+
         [ForeignKey("OrderId")]
-        public virtual Order Order { get; set; }
+        public virtual Order Order { get; set; } = null!;
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public decimal TotalAmount { get; set; }
 
-        // Lưu lại phương thức khách chọn: "COD" hoặc "ONLINE"
-        public string PaymentMethod { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string PaymentMethod { get; set; } = "COD";
     }
 }

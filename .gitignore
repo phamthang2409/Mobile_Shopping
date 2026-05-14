@@ -1,40 +1,41 @@
-
-# Backend (.NET)
+# BE
 **/[Bb]in/
 **/[Oo]bj/
-.vs/
+**/.vs/
+**/.idea/
+**/.vscode/
 
+# Chặn các file rác phát sinh khi chạy/debug
 *.user
 *.suo
 *.db
 *.dll
 *.exe
 *.pdb
-
-# Rider / VS
-*.rsuser
-
-# Cache
+*.metadata
+*.bin
 *.cache
-*.json.cache
 *.dtbcache.v2
 *.futdcache.v2
-
-# Logs
-*.log
 
 # FE
 **/node_modules/
 **/dist/
 **/build/
+**/coverage/
+.eslintcache
 
-# Environment
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+
 .env
 .env.*
 !.env.example
 
-# npm/yarn
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
+# --- [ DOCKER ] ---
+.docker/
