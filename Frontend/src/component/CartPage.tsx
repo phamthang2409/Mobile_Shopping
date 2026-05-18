@@ -6,7 +6,7 @@ import axiosClient from '../Api/axiosClient';
 import '../CSS/CartPage.css';
 
 interface CartItem {
-  productId: number;
+  productId: number; // ➔ ĐỒNG BỘ CHUẨN CHỮ THƯỜNG KHỚP VỚI HUNG THỦ JSON
   productName: string;
   price: number;
   quantity: number;
@@ -21,7 +21,7 @@ const CartPage: React.FC = () => {
 
   const currentUserId = user?.id || user?.Id;
 
-  // --- 1. LẤY DỮ LIỆU (TRUY CẬP VÀO OBJECT 'product' BÊN TRONG) ---
+  // --- 1. LẤY DỮ LIỆU TỪ SERVER VÀ CHUẨN HÓA ---
   const fetchCartFromServer = useCallback(async () => {
     if (!currentUserId) {
       setLoading(false);
@@ -30,12 +30,14 @@ const CartPage: React.FC = () => {
     try {
       const response = await axiosClient.get(`/Cart`);
       if (response.status === 200) {
-        // Map dữ liệu dựa trên cấu trúc thực tế từ console: { productId, quantity, product: { name, price... } }
+        console.log("DỮ LIỆU GIỎ HÀNG THÔ TỪ SERVER:", response.data);
+
         const normalizedData = response.data.map((item: any) => {
-          const pInfo = item.product || {}; // Lấy thông tin từ object lồng 'product'
+          const pInfo = item.product || {}; 
           
           return {
-            productId: item.productId || item.ProductId,
+            // ➔ FIX TRIỆT ĐỂ: Đồng bộ lưu vào key 'productId' viết thường
+            productId: Number(item.productId || item.ProductId || pInfo.id || 0),
             productName: pInfo.productName || pInfo.name || "Sản phẩm",
             price: Number(pInfo.price || 0),
             quantity: Number(item.quantity || 0),
@@ -55,46 +57,57 @@ const CartPage: React.FC = () => {
     fetchCartFromServer();
   }, [fetchCartFromServer]);
 
-  // --- 2. THAY ĐỔI SỐ LƯỢNG (GỬI CHỮ THƯỜNG ĐỂ FIX LỖI 400) ---
+  // --- 2. THAY ĐỔI SỐ LƯỢNG SẢN PHẨM ---
   const handleQuantityChange = async (productId: number, currentQty: number, delta: number) => {
-  try {
-    const newQty = currentQty + delta;
+    try {
+      const newQty = currentQty + delta;
 
-    // 1. Nếu giảm về 0 -> Xóa
-    if (newQty <= 0) {
-      if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-        await axiosClient.delete(`/Cart/remove/${productId}`);
-      } else return;
-    } 
-    // 2. Nếu tăng hoặc giảm hợp lệ (newQty > 0)
-    else {
-      // Dùng API Update để gửi số lượng TUYỆT ĐỐI (ví dụ: 3, 4, 5...)
-      await axiosClient.put(`/Cart/update-quantity`, {
-        productId: Number(productId),
-        quantity: Number(newQty) 
-      });
+      // 1. Nếu giảm về 0 -> Tiến hành xóa sản phẩm khỏi giỏ
+      if (newQty <= 0) {
+        if (window.confirm("Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+          await axiosClient.delete(`/Cart/remove/${productId}`);
+        } else return;
+      } 
+      // 2. Nếu tăng hoặc giảm số lượng hợp lệ (newQty > 0)
+      else {
+        await axiosClient.put(`/Cart/update-quantity`, {
+          productId: Number(productId),
+          quantity: Number(newQty) 
+        });
+      }
+
+      // Tải lại dữ liệu mới để đồng bộ giao diện
+      await fetchCartFromServer();
+      window.dispatchEvent(new Event("cartUpdated"));
+
+    } catch (error: any) {
+      console.error("Lỗi cập nhật số lượng:", error.response?.data);
+      alert("Không thể cập nhật số lượng sản phẩm.");
     }
-
-    await fetchCartFromServer();
-    window.dispatchEvent(new Event("cartUpdated"));
-
-  } catch (error: any) {
-    console.error("Lỗi cập nhật:", error.response?.data);
-    alert("Không thể cập nhật số lượng.");
-  }
-};
-
-  const handleCheckout = () => {
-    if (items.length === 0) return alert("Giỏ hàng đang trống!");
-    navigate('/checkout', { state: { items: items, fromCart: true } });
   };
 
-  // Tính toán tiền an toàn (đã được map thành Number ở trên)
+  // --- 3. CHUYỂN TIẾP SANG TRANG THANH TOÁN ---
+  const handleCheckout = () => {
+    if (items.length === 0) return alert("Giỏ hàng đang trống!");
+    
+    // Đóng gói mảng tường minh đảm bảo ôm theo biến productId sang CheckoutPage
+    const checkoutItems = items.map(item => ({
+      productId: Number(item.productId),
+      productName: item.productName,
+      price: item.price,
+      quantity: item.quantity,
+      imageUrl: item.imageUrl
+    }));
+
+    navigate('/checkout', { state: { items: checkoutItems, fromCart: true } });
+  };
+
+  // Tính toán tổng tiền an toàn
   const subTotal = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const tax = subTotal * 0.1;
   const total = subTotal + tax;
 
-  if (loading) return <div className="cart-loading">Đang tải dữ liệu...</div>;
+  if (loading) return <div className="cart-loading">Đang tải dữ liệu giỏ hàng...</div>;
 
   if (!user) {
     return (
@@ -118,6 +131,7 @@ const CartPage: React.FC = () => {
       <div className="cart-items-list">
         {items.length > 0 ? (
           items.map(item => (
+            // ➔ CẬP NHẬT: Thay item.id bằng item.productId
             <div key={item.productId} className="cart-product-row">
               <div className="img-wrapper">
                  <img 

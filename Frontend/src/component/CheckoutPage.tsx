@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axiosClient from '../Api/axiosClient'; // Sử dụng axiosClient chung để có Interceptor Token
+import axiosClient from '../Api/axiosClient';
 import '../CSS/CheckoutPage.css';
 
 const CheckoutPage: React.FC = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
-    // items: Danh sách sản phẩm thanh toán
-    // fromCart: Nhận diện nguồn từ Giỏ hàng hay Mua ngay
+
     const items = state?.items || [];
     const fromCart = state?.fromCart || false;
-    
+
     const [info, setInfo] = useState({
-        name: '',      
+        name: '',
         address: '',
         phone: '',
-        note: '',      
-        paymentMethod: 'COD' 
+        note: '',
+        paymentMethod: 'COD'
     });
 
-    // Tính toán hiển thị
     const subTotal = items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
     const total = subTotal + (subTotal * 0.1);
 
@@ -34,59 +31,64 @@ const CheckoutPage: React.FC = () => {
         setIsSubmitting(true);
 
         try {
-            // Lấy thông tin User từ localStorage
+            // Lấy userId từ localStorage
             const userData = localStorage.getItem('user');
-            if (!userData) {
-                alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+            const user = userData ? JSON.parse(userData) : null;
+            const userId = user?.id || user?.Id;
+
+            if (!userId) {
+                alert("Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!");
                 navigate('/login');
                 return;
             }
-            
-            const user = JSON.parse(userData);
-            const userId = user.id || user.Id;
 
-            if (!userId) {
-                alert("Lỗi hệ thống: Không xác định được danh tính người dùng.");
-                return;
-            }
+            // Map items — hỗ trợ cả 'id' (từ ProductDTO mới) lẫn 'productId' (từ BuyNow)
+            const formattedItems = items.map((item: any) => {
+                const finalProductId = Number(item.productId || item.id || 0);
+                if (finalProductId <= 0) {
+                    console.error("❌ Không tìm thấy ID hợp lệ:", item);
+                }
+                return {
+                    productId: finalProductId,
+                    quantity: Number(item.quantity || 1)
+                };
+            });
 
-            // Chuẩn bị dữ liệu gửi đi (Payload) 
             const orderData = {
-                Name: info.name.trim(),
-                Phone: info.phone.trim(),
-                Address: info.address.trim(),
-                Note: info.note.trim() || "",
-                PaymentMethod: info.paymentMethod,
-                Items: items.map((item: any) => ({
-                    productId: Number(item.productId || item.id),
-                    quantity: Number(item.quantity)
-                }))
+                name: info.name.trim(),
+                phone: info.phone.trim(),
+                address: info.address.trim(),
+                note: info.note.trim() || "",
+                paymentMethod: info.paymentMethod,
+                items: formattedItems
             };
 
-            // FIX LỖI 404: Gọi đúng Route ở Backend là /api/Order/checkout/{userId}
+            // ✅ Dùng axiosClient — tự gắn token qua interceptor
+            // ✅ Truyền userId đúng route backend /Order/checkout/{userId}
             const response = await axiosClient.post(`/Order/checkout/${userId}`, orderData);
 
             if (response.status === 200 || response.status === 201) {
-                alert("🎉 Chúc mừng Bạn! Đơn hàng của bạn đã đặt thành công.");
-                
-                // LOGIC XỬ LÝ GIỎ HÀNG SAU KHI ĐẶT HÀNG 
+                alert("🎉 Đơn hàng đã đặt thành công!");
+
                 if (fromCart) {
                     await axiosClient.delete('/Cart/clear');
-                    // Dọn dẹp giỏ hàng trong LocalStorage
-                    const cartKey = `cart_${userId}`;
-                    localStorage.removeItem(cartKey);
-
                     window.dispatchEvent(new Event("cartUpdated"));
                 }
-                
+
                 window.dispatchEvent(new Event("storage"));
-                navigate('/'); 
+                navigate('/');
             }
 
         } catch (error: any) {
-            console.error("❌ Lỗi đặt hàng:", error);
+            console.error("❌ Lỗi đặt hàng:", error.response?.data || error);
+
             const serverError = error.response?.data;
-            alert("Đặt hàng thất bại: " + (serverError?.message || "Không thể kết nối máy chủ."));
+            let errorMessage = "Lỗi hệ thống, vui lòng thử lại.";
+            if (serverError?.message) errorMessage = serverError.message;
+            else if (serverError?.errors) errorMessage = JSON.stringify(serverError.errors);
+            else if (typeof serverError === 'string') errorMessage = serverError;
+
+            alert("Đặt hàng thất bại: " + errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -106,53 +108,104 @@ const CheckoutPage: React.FC = () => {
             <div className="checkout-card">
                 <h2 className="checkout-title">Xác Nhận Đơn Hàng</h2>
                 <div className="checkout-grid">
+
+                    {/* Thông tin giao hàng */}
                     <div className="checkout-section">
                         <h3><i className="fas fa-map-marker-alt"></i> Thông tin giao hàng</h3>
                         <div className="input-group">
                             <label>Tên người nhận</label>
-                            <input type="text" placeholder="Nhập tên..." value={info.name} onChange={e => setInfo({...info, name: e.target.value})} disabled={isSubmitting}/>
+                            <input
+                                type="text"
+                                placeholder="Nhập tên..."
+                                value={info.name}
+                                onChange={e => setInfo({ ...info, name: e.target.value })}
+                                disabled={isSubmitting}
+                            />
                         </div>
                         <div className="input-group">
                             <label>Số điện thoại</label>
-                            <input type="text" placeholder="Nhập số điện thoại..." value={info.phone} onChange={e => setInfo({...info, phone: e.target.value})} disabled={isSubmitting}/>
+                            <input
+                                type="text"
+                                placeholder="Nhập số điện thoại..."
+                                value={info.phone}
+                                onChange={e => setInfo({ ...info, phone: e.target.value })}
+                                disabled={isSubmitting}
+                            />
                         </div>
                         <div className="input-group">
                             <label>Địa chỉ nhận hàng</label>
-                            <textarea rows={2} placeholder="Địa chỉ cụ thể..." value={info.address} onChange={e => setInfo({...info, address: e.target.value})} disabled={isSubmitting}/>
+                            <textarea
+                                rows={2}
+                                placeholder="Địa chỉ cụ thể..."
+                                value={info.address}
+                                onChange={e => setInfo({ ...info, address: e.target.value })}
+                                disabled={isSubmitting}
+                            />
                         </div>
                         <div className="input-group">
                             <label>Ghi chú</label>
-                            <input type="text" placeholder="Ví dụ: Giao giờ hành chính..." value={info.note} onChange={e => setInfo({...info, note: e.target.value})} disabled={isSubmitting}/>
+                            <input
+                                type="text"
+                                placeholder="Ví dụ: Giao giờ hành chính..."
+                                value={info.note}
+                                onChange={e => setInfo({ ...info, note: e.target.value })}
+                                disabled={isSubmitting}
+                            />
                         </div>
                         <div className="input-group">
                             <label>Phương thức thanh toán</label>
-                            <select value={info.paymentMethod} onChange={e => setInfo({...info, paymentMethod: e.target.value})} disabled={isSubmitting}>
+                            <select
+                                value={info.paymentMethod}
+                                onChange={e => setInfo({ ...info, paymentMethod: e.target.value })}
+                                disabled={isSubmitting}
+                            >
                                 <option value="COD">Thanh toán khi nhận hàng (COD)</option>
                                 <option value="BANK_TRANSFER">Chuyển khoản ngân hàng</option>
                             </select>
                         </div>
                     </div>
 
+                    {/* Tóm tắt đơn hàng */}
                     <div className="checkout-section summary-section">
                         <h3><i className="fas fa-shopping-basket"></i> Tóm tắt đơn hàng</h3>
                         <div className="items-review">
-                            {items.map((item: any) => (
-                                <div key={item.productId || item.id} className="review-item">
-                                    <span className="item-name">{item.productName || item.name} <strong>x{item.quantity}</strong></span>
-                                    <span className="item-price">{(item.price * item.quantity).toLocaleString('vi-VN')}đ</span>
+                            {items.map((item: any, index: number) => (
+                                <div key={item.productId || item.id || index} className="review-item">
+                                    <span className="item-name">
+                                        {item.productName || item.name} <strong>x{item.quantity}</strong>
+                                    </span>
+                                    <span className="item-price">
+                                        {(item.price * item.quantity).toLocaleString('vi-VN')}đ
+                                    </span>
                                 </div>
                             ))}
                         </div>
                         <div className="price-breakdown">
-                            <div className="price-line"><span>Tạm tính:</span><span>{subTotal.toLocaleString('vi-VN')}đ</span></div>
-                            <div className="price-line"><span>Thuế (10%):</span><span>{(subTotal * 0.1).toLocaleString('vi-VN')}đ</span></div>
-                            <div className="price-line total-line"><span>Tổng cộng:</span><span className="final-amount">{total.toLocaleString('vi-VN')}đ</span></div>
+                            <div className="price-line">
+                                <span>Tạm tính:</span>
+                                <span>{subTotal.toLocaleString('vi-VN')}đ</span>
+                            </div>
+                            <div className="price-line">
+                                <span>Thuế (10%):</span>
+                                <span>{(subTotal * 0.1).toLocaleString('vi-VN')}đ</span>
+                            </div>
+                            <div className="price-line total-line">
+                                <span>Tổng cộng:</span>
+                                <span className="final-amount">{total.toLocaleString('vi-VN')}đ</span>
+                            </div>
                         </div>
-                        <button className={`btn-confirm-order ${isSubmitting ? 'disabled' : ''}`} onClick={handleOrder} disabled={isSubmitting}>
+                        <button
+                            className={`btn-confirm-order ${isSubmitting ? 'disabled' : ''}`}
+                            onClick={handleOrder}
+                            disabled={isSubmitting}
+                        >
                             {isSubmitting ? "ĐANG XỬ LÝ..." : "XÁC NHẬN ĐẶT HÀNG"}
                         </button>
-                        <button className="btn-back" onClick={() => navigate(-1)}>Quay lại</button>
+                        <button className="btn-back" onClick={() => navigate(-1)}>
+                            Quay lại
+                        </button>
                     </div>
+
                 </div>
             </div>
         </div>

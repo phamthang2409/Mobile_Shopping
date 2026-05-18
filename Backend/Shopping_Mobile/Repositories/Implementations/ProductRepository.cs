@@ -5,35 +5,11 @@ using Shopping_Mobile.Repositories.Interfaces;
 
 namespace Shopping_Mobile.Repositories.Implementations
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
-        private readonly AppDbContext _context;
-
-        public ProductRepository(AppDbContext context)
+        public ProductRepository(AppDbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Product>> GetAllAsync()
-        {
-            return await _context.Products.ToListAsync();
-        }
-
-        public async Task<Product?> GetByIdAsync(int id)
-        {
-            return await _context.Products.FindAsync(id);
-        }
-
-        public async Task AddAsync(Product product)
-        {
-            // Chỉ thêm vào Change Tracker
-            await _context.Products.AddAsync(product);
-        }
-
-        public async Task DeleteAsync(Product product)
-        {
-            _context.Products.Remove(product);
-            await Task.CompletedTask;
+            // Code xử lý context đã nằm ở lớp cha (base)
         }
 
         public async Task<IEnumerable<Product>> SearchByNameAsync(string name)
@@ -43,16 +19,12 @@ namespace Shopping_Mobile.Repositories.Implementations
                 .ToListAsync();
         }
 
-        // Cập nhật số lượng tồn kho (Dùng khi checkout)
         public async Task<bool> UpdateStockAsync(int productId, int quantity)
         {
             var product = await _context.Products.FindAsync(productId);
-
-            if (product == null || product.Stock < quantity)
-                return false;
+            if (product == null || product.Stock < quantity) return false;
 
             product.Stock -= quantity;
-
             return true;
         }
     }

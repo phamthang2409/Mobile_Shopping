@@ -8,22 +8,29 @@ namespace Shopping_Mobile.Configurations
     {
         public AutoMapperConfig()
         {
-            // 1. Mapping cho User và Auth
-            CreateMap<Models.User, DTOs.UserDTO>().ReverseMap();
-            CreateMap<DTOs.RegisterDTO, Models.User>();
+            //  Mapping cho User và Auth
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<RegisterDTO, User>();
 
-            // 2. Mapping cho Product
-            CreateMap<Models.Product, DTOs.ProductDTO>().ReverseMap();
+            //  Mapping cho Product
+            CreateMap<Product, ProductDTO>().ReverseMap();
 
-            // 3. Mapping cho Order (Nên thêm để dùng cho trang Lịch sử đơn hàng)
-            //CreateMap<Order, OrderResponseDTO>().ReverseMap();
+            CreateMap<OrderRequestDTO, Order>();
 
-            //// Mapping chi tiết đơn hàng (Dịch từ Product sang DTO để lấy tên SP, ảnh...)
-            //CreateMap<OrderDetail, OrderDetailResponseDTO>()
-            //    .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
-            //    .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Product.ImageUrl));
+            CreateMap<OrderItemRequestDTO, OrderDetail>();
 
-            // ĐÃ XÓA: Tất cả mapping liên quan đến Cart và CartItem
+            CreateMap<Order, OrderResponseDTO>();
+
+            // Mapping chi tiết đơn hàng (Lấy thêm thông tin từ bảng Product)
+            CreateMap<OrderDetail, ProductDTO>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Product.ImageUrl));
+
+            // Mapping cho Cart
+            CreateMap<CartItem, ProductDTO>()
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Product.Price))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Product.ImageUrl));
         }
     }
 }

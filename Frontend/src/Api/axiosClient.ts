@@ -13,9 +13,7 @@ const axiosClient: AxiosInstance = axios.create({
     },
 });
 
-/**
- * 1. Request Interceptor: Luôn đính kèm Token vào Header trước khi gửi đi
- */
+
 axiosClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const token = localStorage.getItem('token'); 
@@ -27,9 +25,8 @@ axiosClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-/**
- * 2. Response Interceptor: Xử lý tự động Refresh Token khi gặp lỗi 401
- */
+// Xử lý tự động Refresh Token khi gặp lỗi 401
+ 
 axiosClient.interceptors.response.use(
     (response) => response,
     async (error) => {

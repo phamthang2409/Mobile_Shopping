@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../Redux/store';
 import '../CSS/ProductDetail.css';
-import axiosClient from '../Api/axiosClient'; // Sử dụng đúng tên file axiosClient đã fix ở bước trước
+import axiosClient from '../Api/axiosClient'; 
 
 interface ProductDetailProps {
   product: any;
@@ -17,8 +17,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
   const [cartCount, setCartCount] = useState(0);
   const DEFAULT_IMG = "https://placehold.jp/24/cccccc/ffffff/400x400.png?text=No+Image";
 
-  // hàm cập nhật
-  // Dùng useCallback để tránh render thừa và dễ dàng gọi lại
+  // Hàm lấy ID an toàn - Bao vây tất cả các kiểu đặt tên biến từ API ngoài đổ vào
+  const getProductId = useCallback(() => {
+    if (!product) return 0;
+    const id = product.productId || product.ProductId || product.id || product.Id || product._id;
+    return Number(id || 0);
+  }, [product]);
+
+  // Hàm cập nhật số lượng badge hiển thị trên giỏ hàng
   const updateCartCount = useCallback(async () => {
     const userId = user?.id || user?.Id;
     
@@ -29,16 +35,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
 
     try {
       const response = await axiosClient.get(`/Cart`);
-      
       if (response.status === 200) {
         const cartItems = response.data;
-        // Tính tổng quantity từ mảng sản phẩm trả về
         const total = cartItems.reduce((acc: number, item: any) => acc + (item.quantity || 0), 0);
         setCartCount(total);
       }
     } catch (error) {
       console.error("Lỗi lấy giỏ hàng:", error);
-      // Fallback: Nếu lỗi do mạng, lấy tạm từ LocalStorage để người dùng đỡ hoang mang
       const storageKey = `cart_${userId}`;
       const localData = JSON.parse(localStorage.getItem(storageKey) || "[]");
       const localTotal = localData.reduce((acc: number, item: any) => acc + (item.quantity || 0), 0);
@@ -46,7 +49,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
     }
   }, [user]);
 
-  // Cập nhật Badge khi component mount hoặc user thay đổi
   useEffect(() => { 
     updateCartCount();
   }, [updateCartCount]);
@@ -57,18 +59,20 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
     return product.productName || product.ProductName || product.name || product.Name || "Điện thoại";
   };
 
-  // thêm vào giỏ hàng
+  // --- 1. XỬ LÝ THÊM VÀO GIỎ HÀNG ---
   const handleAddToCart = async () => {
     if (!user) {
       alert("Bạn cần đăng nhập để thêm vào giỏ hàng nhé!");
       navigate('/login'); 
       return;
     }
-
-    const productId = product.id || product.Id;
-
+    const productId = getProductId();
+    if (productId <= 0) {
+      alert("❌ Lỗi dữ liệu: Không thể xác định mã ID của sản phẩm này!");
+      console.error("Dữ liệu sản phẩm bị lỗi id:", product);
+      return;
+    }
     try {
-      //  Gọi API thêm vào giỏ.
       const response = await axiosClient.post(`/Cart/add`, {
         productId: productId,
         quantity: 1
@@ -76,20 +80,18 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
 
       if (response.status === 200 || response.status === 201) {
         await updateCartCount();
-        
         alert(`Đã thêm ${getProductName()} vào giỏ hàng thành công!`);
         
-        //  (Tùy chọn) Cập nhật LocalStorage để đồng bộ cache
         const userId = user.id || user.Id;
         const storageKey = `cart_${userId}`;
         const localCart = JSON.parse(localStorage.getItem(storageKey) || "[]");
-        const existingIndex = localCart.findIndex((i: any) => (i.productId || i.ProductId) === productId);
+        const existingIndex = localCart.findIndex((i: any) => Number(i.productId || i.id) === productId);
         
         if (existingIndex > -1) {
           localCart[existingIndex].quantity += 1;
         } else {
           localCart.push({
-            productId,
+            productId: productId,
             productName: getProductName(),
             price: product.price || product.Price,
             imageUrl: product.imageUrl || product.ImageUrl,
@@ -97,14 +99,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
           });
         }
         localStorage.setItem(storageKey, JSON.stringify(localCart));
+        window.dispatchEvent(new Event("cartUpdated"));
       }
     } catch (error: any) {
-      if (error.response?.status !== 401) {
-        alert("Có lỗi xảy ra khi thêm vào giỏ hàng. Vui lòng thử lại!");
-      }
+      console.error("Lỗi gọi API thêm giỏ hàng:", error);
+      alert("Có lỗi xảy ra khi thêm vào giỏ hàng. Vui lòng thử lại!");
     }
   };
 
+  // --- 2. XỬ LÝ MUA NGAY LẬP TỨC ---
   const handleBuyNow = () => {
     if (!user) {
       alert("Bạn vui lòng đăng nhập để thanh toán nhé!");
@@ -112,10 +115,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
       return;
     }
 
+    const productId = getProductId();
+
+    if (productId <= 0) {
+      alert("❌ Lỗi dữ liệu: Không thể xác định mã ID của sản phẩm này!");
+      console.error("Dữ liệu sản phẩm bị lỗi id:", product);
+      return;
+    }
+
+    // Đóng gói theo chuẩn cấu trúc phẳng 'productId' viết thường mà CheckoutPage đang đợi
     const buyNowItem = {
-      productId: product.id || product.Id,
+      productId: productId,
       productName: getProductName(),
-      price: product.price || product.Price,
+      price: Number(product.price || product.Price || 0),
       imageUrl: product.imageUrl || product.ImageUrl,
       quantity: 1
     };
@@ -125,7 +137,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
 
   return (
     <div className="detail-container">
-      <div className="deatail-header">
+      <div className="detail-header">
         <div className="breadcrumb" onClick={onBack} style={{ cursor: 'pointer' }}>
           <span>Shop</span> / <span className="current-path">Product</span>
         </div>

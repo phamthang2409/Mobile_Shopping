@@ -19,7 +19,7 @@ const ManageOrders: React.FC = () => {
   const handleStatusChange = async (orderId: number, newStatus: number) => {
     try {
       const response = await fetch(`https://localhost:7180/api/Order/${orderId}/status`, {
-        method: 'PUT', // Hoặc PATCH tùy backend bạn viết
+        method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
           // 'Authorization': `Bearer ${sessionStorage.getItem('token')}` // Nếu API yêu cầu token
@@ -63,7 +63,7 @@ const ManageOrders: React.FC = () => {
                 <select 
                   value={order.status} 
                   onChange={(e) => handleStatusChange(order.id, parseInt(e.target.value))}
-                  style={{
+                  style={{  
                     padding: '5px',
                     borderRadius: '4px',
                     backgroundColor: order.status === 0 ? '#fff3cd' : '#d4edda',

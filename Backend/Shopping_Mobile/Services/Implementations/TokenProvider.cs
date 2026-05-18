@@ -33,11 +33,11 @@ namespace Shopping_Mobile.Services.Implementations
 
             // Đảm bảo lấy đúng giá trị thời hạn token
             int expirationMinutes = _configuration.GetValue<int>("Jwt:ExpirationInMinutes");
-            if (expirationMinutes <= 0) expirationMinutes = 60; // Mặc định 60 phút nếu config lỗi
+            if (expirationMinutes <= 0) expirationMinutes = 60; 
 
             var claims = new Dictionary<string, object>
             {
-                { ClaimTypes.NameIdentifier, user.Id }, // Id giờ đã là string nên rất mượt
+                { ClaimTypes.NameIdentifier, user.Id }, 
                 { ClaimTypes.Name, user.UserName ?? "" },
                 { ClaimTypes.Role, user.Role ?? "User" }
             };

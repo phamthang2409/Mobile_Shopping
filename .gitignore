@@ -33,9 +33,15 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-.env
 .env.*
 !.env.example
 
 # --- [ DOCKER ] ---
 .docker/
+# Chặn file môi trường của React
+.env
+.env.local
+.env.development.local
+
+# Chặn các file cấu hình chứa thông tin nhạy cảm cục bộ khác nếu có
+*.user

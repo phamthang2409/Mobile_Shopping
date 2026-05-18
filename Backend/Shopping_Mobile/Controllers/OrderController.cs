@@ -2,94 +2,49 @@
 using Microsoft.AspNetCore.Mvc;
 using Shopping_Mobile.DTOs;
 using Shopping_Mobile.Interfaces;
+using System.Security.Claims;
 
 namespace Shopping_Mobile.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderController(IOrderService orderService) : ControllerBase
     {
-        private readonly IOrderService _orderService;
+        // Helper lấy UserId an toàn tuyệt đối từ mã hóa Token của người dùng đang đăng nhập
+        private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        public OrderController(IOrderService orderService)
-        {
-            _orderService = orderService;
-        }
-
-        // Lịch sử đơn hàng của user
+        // Lấy lịch sử đơn hàng của User cụ thể
         [HttpGet("history/{userId}")]
         public async Task<IActionResult> GetUserOrders(string userId)
         {
-            try
-            {
-                var orders = await _orderService.GetOrdersByUserIdAsync(userId);
-                if (orders == null) return Ok(new List<object>());
-                return Ok(orders);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
-            }
+            var orders = await orderService.GetOrdersByUserIdAsync(userId);
+            return Ok(orders);
         }
 
+        // Lấy tất cả đơn hàng (Dành cho Admin quản lý)
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var orders = await _orderService.GetAllOrderAsync();
-                return Ok(orders);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
-            }
+            var orders = await orderService.GetAllOrderAsync(); 
+            return Ok(orders);
         }
 
-
+        // Cập nhật trạng thái đơn hàng
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] int status)
         {
-            try
-            {
-                // Gọi sang Service để thực hiện update vào DB
-                var result = await _orderService.UpdateOrderStatusAsync(id, status);
-
-                if (!result)
-                {
-                    return NotFound(new { message = "Không tìm thấy đơn hàng!" });
-                }
-
-                return Ok(new { message = "Cập nhật trạng thái thành công!" });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
-            }
+            await orderService.UpdateOrderStatusAsync(id, status);
+            return Ok(new { message = "Cập nhật trạng thái thành công!" });
         }
 
+        // Tạo đơn hàng thanh toán (Yêu cầu Token Đăng nhập)
         [Authorize]
         [HttpPost("checkout/{userId}")]
-        public async Task<IActionResult> CreateOrder(string userId, [FromBody] OrderRequestDTO request)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderRequestDTO request)
         {
-            if (request == null || request.Items == null || !request.Items.Any())
-                return BadRequest(new { message = "Đơn hàng không có sản phẩm hoặc dữ liệu không hợp lệ!" });
+            var result = await orderService.CreateOrderAsync(CurrentUserId, request);
 
-            try
-            {
-                var result = await _orderService.CreateOrderAsync(userId, request);
-
-                if (!result.IsSuccess)
-                {
-                    return BadRequest(new { message = result.Message });
-                }
-
-                return Ok(new { message = result.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = $"Lỗi server: {ex.Message}" });
-            }
+            return Ok(new { message = "Đặt hàng thành công!", data = result });
         }
     }
 }

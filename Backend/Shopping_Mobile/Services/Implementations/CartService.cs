@@ -1,80 +1,89 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
-using Shopping_Mobile.DTOs;
+﻿using Shopping_Mobile.DTOs;
 using Shopping_Mobile.Models;
 using Shopping_Mobile.Repositories.Interfaces;
-using Shopping_Mobile.Services.Interfaces; 
+using Shopping_Mobile.Services.Interfaces;
 
 namespace Shopping_Mobile.Services.Implementations
 {
-    public class CartService : ICartService
+    public class CartService(IUnitOfWork unitOfWork) : ICartService
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        // Constructor thực hiện Dependency Injection cho UnitOfWork
-        public CartService(IUnitOfWork unitOfWork)
+        public async Task AddToCartAsync(string userId, OrderItemRequestDTO request)
         {
-            _unitOfWork = unitOfWork;
-        }
+            // Kiểm tra sản phẩm có tồn tại và còn hàng không
+            var product = await unitOfWork.Products.GetByIdAsync(request.ProductId);
+            if (product == null)
+                throw new KeyNotFoundException("Sản phẩm không tồn tại.");
 
-        public async Task<bool> AddToCartAsync(string userId, OrderItemRequestDTO request)
-        {
-            // 1. Kiểm tra tồn tại trong giỏ hàng thông qua UnitOfWork
-            var existingItem = await _unitOfWork.Carts.GetItemInCartAsync(userId, request.ProductId);
+            if (product.Stock < request.Quantity)
+                throw new ArgumentException($"Sản phẩm '{product.ProductName}' chỉ còn {product.Stock} trong kho.");
+
+            // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+            var existingItem = await unitOfWork.Carts.GetItemInCartAsync(userId, request.ProductId);
 
             if (existingItem != null)
             {
                 existingItem.Quantity += request.Quantity;
-                _unitOfWork.Carts.Update(existingItem);
+
+                // Kiểm tra lại nếu tổng số lượng vượt quá kho sau khi cộng dồn
+                if (existingItem.Quantity > product.Stock)
+                    throw new ArgumentException("Tổng số lượng trong giỏ hàng vượt quá tồn kho.");
+
+                unitOfWork.Carts.Update(existingItem);
             }
             else
             {
-                // Nếu chưa có, tạo thực thể CartItem mới
                 var newItem = new CartItem
                 {
                     UserId = userId,
                     ProductId = request.ProductId,
                     Quantity = request.Quantity
                 };
-                await _unitOfWork.Carts.AddAsync(newItem);
+                await unitOfWork.Carts.AddAsync(newItem);
             }
 
-            return await _unitOfWork.CompleteAsync() > 0;
+            var result = await unitOfWork.CompleteAsync();
+            if (result <= 0) throw new Exception("Không thể thêm vào giỏ hàng.");
         }
 
         public async Task<IEnumerable<CartItem>> GetCartByUserIdAsync(string userId)
         {
-            if (string.IsNullOrEmpty(userId)) return Enumerable.Empty<CartItem>();
+            if (string.IsNullOrEmpty(userId))
+                throw new UnauthorizedAccessException("Người dùng không hợp lệ.");
 
-            return await _unitOfWork.Carts.GetCartByUserIdAsync(userId);
+            return await unitOfWork.Carts.GetCartByUserIdAsync(userId);
         }
-     
-        public async Task<bool> RemoveFromCartAsync(string userId, int productId)
+
+        public async Task UpdateQuantityAsync(string userId, int productId, int newQuantity)
         {
-            var item = await _unitOfWork.Carts.GetItemInCartAsync(userId, productId);
-            if (item == null) return false;
+            if (newQuantity <= 0) throw new ArgumentException("Số lượng phải lớn hơn 0.");
 
-            _unitOfWork.Carts.Remove(item);
+            var cartItem = await unitOfWork.Carts.GetItemInCartAsync(userId, productId);
+            if (cartItem == null) throw new KeyNotFoundException("Không tìm thấy sản phẩm trong giỏ.");
 
-            return await _unitOfWork.CompleteAsync() > 0;
-        }
-        public async Task<bool> UpdateQuantityAsync(string userId, int productId, int newQuantity)
-        {
-            var cartItem = await _unitOfWork.Carts.GetItemInCartAsync(userId, productId);
-
-            if (cartItem == null) return false;
+            // Kiểm tra tồn kho trước khi cập nhật số lượng mới
+            var product = await unitOfWork.Products.GetByIdAsync(productId);
+            if (product != null && newQuantity > product.Stock)
+                throw new ArgumentException("Số lượng yêu cầu vượt quá tồn kho.");
 
             cartItem.Quantity = newQuantity;
+            unitOfWork.Carts.Update(cartItem);
 
-            _unitOfWork.Carts.Update(cartItem);
-            await _unitOfWork.CompleteAsync();
-
-            return true;
+            await unitOfWork.CompleteAsync();
         }
-        public async Task<bool> ClearCartAsync(string userId)
-        {
-            _unitOfWork.Carts.ClearCart(userId);
 
-            return await _unitOfWork.CompleteAsync() > 0;
+        public async Task RemoveFromCartAsync(string userId, int productId)
+        {
+            var item = await unitOfWork.Carts.GetItemInCartAsync(userId, productId);
+            if (item == null) throw new KeyNotFoundException("Sản phẩm không tồn tại trong giỏ.");
+
+            unitOfWork.Carts.Remove(item);
+            await unitOfWork.CompleteAsync();
+        }
+
+        public async Task ClearCartAsync(string userId)
+        {
+            unitOfWork.Carts.ClearCart(userId);
+            await unitOfWork.CompleteAsync();
         }
     }
 }

@@ -29,15 +29,19 @@ const ShopPage: React.FC<ShopPageProps> = ({ onSelectProduct }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (items.length > 0) {
+    if (items && items.length > 0) {
       setDisplayItems(items);
-      const maxP = Math.max(...items.map((i: any) => i.price || i.Price || 0));
+      // Fix an toàn: Thêm bộ lọc chống phần tử lỗi không có giá trước khi tính Math.max
+      const validPrices = items.map((i: any) => i.price || i.Price || 0);
+      const maxP = validPrices.length > 0 ? Math.max(...validPrices) : 0;
       setPriceRange(prev => ({ ...prev, max: maxP }));
     }
   }, [items]);
 
   // HÀM XỬ LÝ LỌC TẠI FE 
   const handleApplyFilters = () => {
+    if (!items) return;
+    
     const result = items.filter((p: any) => {
       const pName = (p.productName || p.ProductName || "").toLowerCase();
       const pPrice = p.price || p.Price || 0;
@@ -58,7 +62,8 @@ const ShopPage: React.FC<ShopPageProps> = ({ onSelectProduct }) => {
   // Reset về trạng thái ban đầu
   const handleReset = () => {
     setSearchTerm('');
-    const maxP = Math.max(...items.map((i: any) => i.price || i.Price || 0));
+    const validPrices = items.map((i: any) => i.price || i.Price || 0);
+    const maxP = validPrices.length > 0 ? Math.max(...validPrices) : 0;
     setPriceRange({ min: 0, max: maxP });
     setDisplayItems(items);
   };
@@ -122,30 +127,44 @@ const ShopPage: React.FC<ShopPageProps> = ({ onSelectProduct }) => {
       
       {/* Danh sách sản phẩm hiển thị */}
       <div className="product-grid">
-        {displayItems.length > 0 ? (
-          displayItems.map((product: any) => (
-            <div 
-              key={product.id || product.Id} 
-              className="product-card" 
-              onClick={() => onSelectProduct?.(product)} 
-            >
-              <div className="image-container">
-                <img 
-                  src={product.imageUrl || product.ImageUrl || DEFAULT_IMAGE} 
-                  alt={product.productName || product.ProductName} 
-                  onError={(e) => { (e.target as HTMLImageElement).src = DEFAULT_IMAGE; }}
-                />
+        {displayItems && displayItems.length > 0 ? (
+          displayItems.map((product: any, index: number) => {
+            // Quét tìm ID nguyên bản từ Server đổ về Redux Store
+            const currentId = product.productId || product.id || product.ProductId || product.Id || index;
+
+            return (
+              <div 
+                key={currentId} 
+                className="product-card" 
+                onClick={() => {
+                  console.log("RAW JSON:", JSON.stringify(product));
+                  const secureProduct = {
+                    ...product,
+                    id: Number(product.id || product.productId || product.ProductId || product.Id || 0)
+                  };
+                  
+                  console.log("Dữ liệu sản phẩm truyền từ Shop sang Detail:", secureProduct);
+                  onSelectProduct?.(secureProduct);
+                }} 
+              >
+                <div className="image-container">
+                  <img 
+                    src={product.imageUrl || product.ImageUrl || DEFAULT_IMAGE} 
+                    alt={product.productName || product.ProductName} 
+                    onError={(e) => { (e.target as HTMLImageElement).src = DEFAULT_IMAGE; }}
+                  />
+                </div>
+                
+                <div className="product-info">
+                  <h3>{product.productName || product.ProductName || "Sản phẩm không tên"}</h3>
+                  <div className="stars">⭐⭐⭐⭐⭐</div>
+                  <p className="price">
+                    {(product.price || product.Price || 0).toLocaleString('vi-VN')} VND
+                  </p>
+                </div>
               </div>
-              
-              <div className="product-info">
-                <h3>{product.productName || product.ProductName || "Sản phẩm không tên"}</h3>
-                <div className="stars">⭐⭐⭐⭐⭐</div>
-                <p className="price">
-                  {(product.price || product.Price || 0).toLocaleString('vi-VN')} VND
-                </p>
-              </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="no-products">
             <p>Không tìm thấy sản phẩm nào phù hợp với yêu cầu.</p>

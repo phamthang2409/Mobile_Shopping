@@ -5,23 +5,10 @@ using Shopping_Mobile.Repositories.Interfaces;
 
 namespace Shopping_Mobile.Repositories.Implementations
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private readonly AppDbContext _context;
-
-        public UserRepository(AppDbContext context)
+        public UserRepository(AppDbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
-        public async Task<User?> GetByIdAsync(string id)
-        {
-            return await _context.Users.FindAsync(id);
         }
 
         public async Task<User?> GetByEmailAsync(string email)
@@ -32,23 +19,6 @@ namespace Shopping_Mobile.Repositories.Implementations
         public async Task<User?> GetByUserNameAsync(string userName)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
-        }
-
-        public async Task AddAsync(User user)
-        {
-            await _context.Users.AddAsync(user);
-        }
-
-        public async Task UpdateAsync(User user)
-        {
-            _context.Users.Update(user);
-            await Task.CompletedTask;
-        }
-
-        public async Task DeleteAsync(User user)
-        {
-            _context.Users.Remove(user);
-            await Task.CompletedTask;
         }
 
     }

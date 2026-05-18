@@ -1,14 +1,14 @@
-﻿using Shopping_Mobile.Models;
-using Shopping_Mobile.DTOs;
+﻿using Shopping_Mobile.DTOs;
 
 namespace Shopping_Mobile.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetAllProductsAsync();
-        Task<Product?> GetProductByIdAsync(int id);
-        Task<Product> AddProductAsync(ProductDTO productDto);
-        Task<bool> RemoveFromProduct(int productId);
-        Task<IEnumerable<Product>> SearchProductsByNameAsync(string name);
+        Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
+        Task<ProductDTO> GetProductByIdAsync(int id);
+        Task AddProductAsync(ProductDTO productDto);
+        Task UpdateProductAsync(int id, ProductDTO productDto);
+        Task DeleteProductAsync(int id);
+        Task<IEnumerable<ProductDTO>> SearchProductsAsync(string name);
     }
 }

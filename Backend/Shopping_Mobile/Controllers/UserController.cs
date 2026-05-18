@@ -1,42 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shopping_Mobile.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shopping_Mobile.DTOs;
+using Shopping_Mobile.Interfaces;
 
 namespace Shopping_Mobile.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    [Authorize] 
+    public class UserController(IUserService userService) : ControllerBase
     {
-        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
-
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetProfile(string id)
+        public async Task<IActionResult> GetProfile(string id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
-
-            if (user == null)
-            {
-                return NotFound(new { message = "Không tìm thấy người dùng" });
-            }
-
+            var user = await userService.GetUserByIdAsync(id);
             return Ok(user);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProfile(string id, UserDTO userDto)
+        public async Task<IActionResult> UpdateProfile(string id, [FromBody] UserDTO userDto)
         {
-            if (id != userDto.Id) return BadRequest("ID không khớp");
+            if (id != userDto.Id)
+                throw new ArgumentException("ID người dùng không trùng khớp!");
 
-            var result = await _userService.UpdateUserAsync(userDto);
-            if (!result) return BadRequest("Cập nhật thất bại");
+            await userService.UpdateUserAsync(userDto);
 
-            return Ok(new { message = "Cập nhật thông tin thành công" });
+            return Ok(new { message = "Cập nhật thông tin thành công." });
         }
     }
 }

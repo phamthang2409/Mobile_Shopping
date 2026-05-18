@@ -5,11 +5,9 @@ namespace Shopping_Mobile.Interfaces
 {
     public interface IOrderService
     {
-       
-        Task<List<Order>> GetOrdersByUserIdAsync(string userId);
-        Task<(bool IsSuccess, string Message)> CreateOrderAsync(string userId, OrderRequestDTO request);
-        Task<IEnumerable<Order>> GetAllOrderAsync();
-        Task<bool> UpdateOrderStatusAsync(int orderId, int status);
-
+        Task<List<OrderResponseDTO>> GetOrdersByUserIdAsync(string userId);
+        Task<IEnumerable<OrderResponseDTO>> GetAllOrderAsync();
+        Task UpdateOrderStatusAsync(int orderId, int status);
+        Task<OrderResponseDTO> CreateOrderAsync(string userId, OrderRequestDTO request);
     }
 }

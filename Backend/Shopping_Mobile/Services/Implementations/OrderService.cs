@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Shopping_Mobile.Data;
 using Shopping_Mobile.DTOs;
 using Shopping_Mobile.Interfaces;
 using Shopping_Mobile.Models;
@@ -8,72 +6,58 @@ using Shopping_Mobile.Repositories.Interfaces;
 
 namespace Shopping_Mobile.Services.Implementations
 {
-    public class OrderService : IOrderService
+    public class OrderService(IUnitOfWork unitOfWork, IMapper mapper) : IOrderService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
+        public async Task<List<OrderResponseDTO>> GetOrdersByUserIdAsync(string userId)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            var orders = await unitOfWork.Orders.GetOrdersByUserIdAsync(userId);
+            // Trả về DTO thay vì Entity
+            return mapper.Map<List<OrderResponseDTO>>(orders.ToList());
         }
 
-        public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
+        public async Task<IEnumerable<OrderResponseDTO>> GetAllOrderAsync()
         {
-            var orders = await _unitOfWork.Orders.GetOrdersByUserIdAsync(userId);
-            return orders.ToList();
+            var orders = await unitOfWork.Orders.GetAllOrdersAsync();
+            return mapper.Map<IEnumerable<OrderResponseDTO>>(orders);
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrderAsync()
+        public async Task UpdateOrderStatusAsync(int orderId, int status)
         {
-            return await _unitOfWork.Orders.GetAllOrdersAsync();
+            var order = await unitOfWork.Orders.GetByIdAsync(orderId);
+            if (order == null)
+                throw new KeyNotFoundException("Không tìm thấy đơn hàng này!");
+
+            order.Status = status;
+            unitOfWork.Orders.Update(order);
+
+            var result = await unitOfWork.CompleteAsync();
+            if (result <= 0)
+                throw new Exception("Cập nhật trạng thái thất bại.");
         }
 
-        // Cập nhật trạng thái đơn hàng (Dành cho Admin)
-        public async Task<bool> UpdateOrderStatusAsync(int orderId, int status)
+        public async Task<OrderResponseDTO> CreateOrderAsync(string userId, OrderRequestDTO request)
         {
-            try
-            {
-                // Bước 1: Lấy đơn hàng từ Repo (Sơn hãy đảm bảo IOrderRepository đã có GetByIdAsync)
-                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
-                if (order == null) return false;
-
-                // Bước 2: Cập nhật trạng thái
-                order.Status = status;
-
-                // Bước 3: Đánh dấu cập nhật và lưu
-                _unitOfWork.Orders.Update(order);
-                var result = await _unitOfWork.CompleteAsync();
-
-                return result > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<(bool IsSuccess, string Message)> CreateOrderAsync(string userId, OrderRequestDTO request)
-        {
-            // Kiểm tra đầu vào
-            if (request == null || request.Items == null || !request.Items.Any())
-                return (false, "Đơn hàng không có sản phẩm!");
+            // Kiểm tra đầu vào cơ bản
+            if (request?.Items == null || !request.Items.Any())
+                throw new ArgumentException("Đơn hàng không có sản phẩm!");
 
             decimal totalAmount = 0;
             var orderDetails = new List<OrderDetail>();
 
-            // Kiểm tra tồn kho và tính toán chi tiết
+            // Kiểm tra tồn kho và chuẩn bị dữ liệu
             foreach (var item in request.Items)
             {
-                var product = await _unitOfWork.Products.GetByIdAsync(item.ProductId);
+                var product = await unitOfWork.Products.GetByIdAsync(item.ProductId);
                 if (product == null)
-                    return (false, $"Sản phẩm ID {item.ProductId} không tồn tại.");
+                    throw new KeyNotFoundException($"Sản phẩm ID {item.ProductId} không tồn tại.");
 
-                // Cập nhật số lượng kho
-                bool stockUpdated = await _unitOfWork.Products.UpdateStockAsync(item.ProductId, item.Quantity);
-                if (!stockUpdated)
-                    return (false, $"Sản phẩm '{product.ProductName}' không đủ tồn kho.");
+                // Kiểm tra tồn kho trực tiếp tại Service
+                if (product.Stock < item.Quantity)
+                    throw new ArgumentException($"Sản phẩm '{product.ProductName}' không đủ tồn kho.");
+
+                // Đánh dấu trừ kho (Trừ trong bộ nhớ, UnitOfWork sẽ Save sau)
+                product.Stock -= item.Quantity;
+                unitOfWork.Products.Update(product);
 
                 totalAmount += product.Price * item.Quantity;
 
@@ -85,47 +69,34 @@ namespace Shopping_Mobile.Services.Implementations
                 });
             }
 
+            // Khởi tạo thực thể Order bằng AutoMapper
+            var newOrder = mapper.Map<Order>(request);
+            newOrder.UserId = userId;
+            newOrder.OrderDate = DateTime.Now;
+            newOrder.TotalAmount = totalAmount;
+
             string paymentMethod = string.IsNullOrEmpty(request.PaymentMethod) ? "COD" : request.PaymentMethod;
+            // Gán trạng thái dựa trên phương thức thanh toán
+            newOrder.Status = (paymentMethod == "COD") ? (int)OrderStatus.Pending : (int)OrderStatus.Paid;
 
-            //  Khởi tạo thực thể Order 
-            var newOrder = new Order
-            {
-                UserId = userId,
-                OrderDate = DateTime.Now,
-                TotalAmount = totalAmount,
-                Name = request.Name ?? "Khách hàng",
-                Address = request.Address ?? string.Empty,
-                Phone = request.Phone ?? string.Empty,
-                Note = request.Note,
-                // Dùng Enum Pending cho COD, Paid cho chuyển khoản
-                Status = (paymentMethod == "COD") ? (int)OrderStatus.Pending : (int)OrderStatus.Paid
-            };
-
-            // 4. Khởi tạo hóa đơn (Bill)
+            // Khởi tạo Bill (Hóa đơn)
             var newBill = new Bill
             {
                 CreatedDate = DateTime.Now,
                 TotalAmount = totalAmount,
                 PaymentMethod = paymentMethod,
-                Order = newOrder // Gán quan hệ trực tiếp nếu Model hỗ trợ
+                Order = newOrder
             };
 
-            try
-            {
-                // 5. Lưu toàn bộ thông qua UnitOfWork (Đảm bảo tính Transaction)
-                await _unitOfWork.Orders.CreateOrderAsync(newOrder, orderDetails, newBill);
-                var result = await _unitOfWork.CompleteAsync();
+            // 5. Lưu toàn bộ thông qua UnitOfWork (Đảm bảo tính Atomic Transaction)
+            await unitOfWork.Orders.CreateOrderAsync(newOrder, orderDetails, newBill);
 
-                if (result > 0)
-                    return (true, "Đặt hàng thành công!");
+            var result = await unitOfWork.CompleteAsync();
 
-                return (false, "Không thể lưu dữ liệu.");
-            }
-            catch (Exception ex)
-            {
-                var innerMessage = ex.InnerException != null ? $" | Chi tiết: {ex.InnerException.Message}" : "";
-                return (false, $"Lỗi hệ thống: {ex.Message}{innerMessage}");
-            }
+            if (result > 0)
+                return mapper.Map<OrderResponseDTO>(newOrder);
+
+            throw new Exception("Lỗi hệ thống khi lưu đơn hàng.");
         }
     }
 }

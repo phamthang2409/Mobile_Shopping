@@ -6,6 +6,7 @@
         IProductRepository Products { get; }
         IUserRepository Users { get; }
         ICartRepository Carts { get; }
+        IRefreshTokenRepository RefreshTokens { get; }
 
         Task<int> CompleteAsync(); 
     }

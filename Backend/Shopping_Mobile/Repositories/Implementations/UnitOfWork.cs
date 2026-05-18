@@ -12,7 +12,8 @@ namespace Shopping_Mobile.Repositories.Implementations
         public IOrderRepository Orders { get; private set; }
         public IProductRepository Products { get; private set; }
         public IUserRepository Users { get; private set; }
-        public ICartRepository Carts { get; private set; }      
+        public ICartRepository Carts { get; private set; }
+        public IRefreshTokenRepository RefreshTokens { get; private set; }
 
         public UnitOfWork(AppDbContext context)
         {
@@ -21,8 +22,9 @@ namespace Shopping_Mobile.Repositories.Implementations
             Orders = new OrderRepository(_context);
             Products = new ProductRepository(_context);
             Users = new UserRepository(_context);
-
             Carts = new CartRepository(_context);
+
+            RefreshTokens = new RefreshTokenRepository(_context);
         }
 
         public async Task<int> CompleteAsync()
