@@ -6,7 +6,7 @@ import axiosClient from '../Api/axiosClient';
 import '../CSS/CartPage.css';
 
 interface CartItem {
-  productId: number; // ➔ ĐỒNG BỘ CHUẨN CHỮ THƯỜNG KHỚP VỚI HUNG THỦ JSON
+  productId: number; 
   productName: string;
   price: number;
   quantity: number;
@@ -36,7 +36,6 @@ const CartPage: React.FC = () => {
           const pInfo = item.product || {}; 
           
           return {
-            // ➔ FIX TRIỆT ĐỂ: Đồng bộ lưu vào key 'productId' viết thường
             productId: Number(item.productId || item.ProductId || pInfo.id || 0),
             productName: pInfo.productName || pInfo.name || "Sản phẩm",
             price: Number(pInfo.price || 0),
@@ -131,7 +130,6 @@ const CartPage: React.FC = () => {
       <div className="cart-items-list">
         {items.length > 0 ? (
           items.map(item => (
-            // ➔ CẬP NHẬT: Thay item.id bằng item.productId
             <div key={item.productId} className="cart-product-row">
               <div className="img-wrapper">
                  <img 
@@ -145,7 +143,6 @@ const CartPage: React.FC = () => {
                 <h4>{item.productName}</h4>
                 <p className="product-price-text">{item.price.toLocaleString('vi-VN')}đ</p>
               </div>
-
               <div className="quantity-actions">
                 <button 
                   className="btn-qty" 

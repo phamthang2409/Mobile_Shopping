@@ -24,7 +24,6 @@ namespace Shopping_Mobile.Services.Implementations
             {
                 existingItem.Quantity += request.Quantity;
 
-                // Kiểm tra lại nếu tổng số lượng vượt quá kho sau khi cộng dồn
                 if (existingItem.Quantity > product.Stock)
                     throw new ArgumentException("Tổng số lượng trong giỏ hàng vượt quá tồn kho.");
 

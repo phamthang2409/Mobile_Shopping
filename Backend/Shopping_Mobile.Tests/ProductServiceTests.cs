@@ -113,7 +113,6 @@ namespace Shopping_Mobile.Tests
             };
             var fakeProduct = new Product { ProductName = "Iphone 15", Price = 1000 };
 
-            // Đảm bảo Mapper trả về đúng thực thể fakeProduct có cấu trúc rõ ràng
             _mockMapper.Setup(m => m.Map<Product>(productDto))
                        .Returns(fakeProduct);
 

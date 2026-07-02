@@ -41,7 +41,7 @@ namespace Shopping_Mobile.Services.Implementations
                 { ClaimTypes.Name, user.UserName ?? "" },
                 { ClaimTypes.Role, user.Role ?? "User" }
             };
-
+            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Claims = claims,

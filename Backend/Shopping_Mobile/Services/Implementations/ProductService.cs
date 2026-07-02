@@ -6,7 +6,6 @@ using Shopping_Mobile.Repositories.Interfaces;
 
 namespace Shopping_Mobile.Services.Implementations
 {
-    // Sử dụng Primary Constructor của C# 12 giúp inject dependencies cực gọn
     public class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
         public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()

@@ -99,7 +99,6 @@ namespace Shopping_Mobile.Tests
 
             var product = new Product { Id = 1, ProductName = "Iphone 15", Stock = 10, Price = 1000 };
 
-            // FIX: Khởi tạo sẵn thông tin cho mappedOrder giả lập để tránh lỗi lệch giá trị Assert ngầm định
             var mappedOrder = new Order
             {
                 UserId = "user-1",

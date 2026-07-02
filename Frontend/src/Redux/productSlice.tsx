@@ -13,7 +13,6 @@ const initialState: ProductState = {
   error: null,
 };
 
-// Fetch API 
 export const fetchProducts = createAsyncThunk<
   Product[], 
   void,      
@@ -24,11 +23,8 @@ export const fetchProducts = createAsyncThunk<
     try {
       const response = await productApi.getAll();
       
-      // Kiểm tra nếu response là AxiosResponse thì lấy thuộc tính .data
-      // Nếu productApi.getAll() đã được bóc tách dữ liệu, thì lấy trực tiếp response
       const data = (response as any).data || response;
 
-      // Hỗ trợ bóc tách cấu trúc $values của .NET nếu có
       return Array.isArray(data) ? data : (data?.$values || []);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(

@@ -55,7 +55,6 @@ namespace Shopping_Mobile.Services.Implementations
                 if (product.Stock < item.Quantity)
                     throw new ArgumentException($"Sản phẩm '{product.ProductName}' không đủ tồn kho.");
 
-                // Đánh dấu trừ kho (Trừ trong bộ nhớ, UnitOfWork sẽ Save sau)
                 product.Stock -= item.Quantity;
                 unitOfWork.Products.Update(product);
 

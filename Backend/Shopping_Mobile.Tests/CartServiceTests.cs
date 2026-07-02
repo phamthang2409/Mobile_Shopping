@@ -122,7 +122,6 @@ namespace Shopping_Mobile.Tests
                            .ReturnsAsync(cartItem);
             _mockUnitOfWork.Setup(u => u.Products.GetByIdAsync(1))
                            .ReturnsAsync(product);
-            // FIX: Bổ sung Setup CompleteAsync thành công (trả về giá trị > 0) để hàm chạy thông suốt
             _mockUnitOfWork.Setup(u => u.CompleteAsync())
                            .ReturnsAsync(1);
 

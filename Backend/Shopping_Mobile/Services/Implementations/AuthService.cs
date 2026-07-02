@@ -12,7 +12,6 @@ namespace Shopping_Mobile.Services.Implementations
         private readonly IMapper _mapper;
         private readonly ITokenProvider _tokenProvider;
 
-        // FIX: Đã loại bỏ hoàn toàn AppDbContext ra khỏi Constructor
         public AuthService(IUnitOfWork unitOfWork, IMapper mapper, ITokenProvider tokenProvider)
         {
             _unitOfWork = unitOfWork;

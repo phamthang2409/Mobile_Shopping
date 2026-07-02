@@ -23,7 +23,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
-// ==================== DI SERVICES & REPOSITORIES ====================
 
 // DI Services
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -85,7 +84,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// CORS Policy cho dự án React Frontend
+// CORS Policy
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowReact", policy => {
         policy.WithOrigins("http://localhost:3000")
@@ -95,7 +94,6 @@ builder.Services.AddCors(options => {
     });
 });
 
-// ==================== AUTHENTICATION & JWT BEARER ====================
 
 // Đọc trực tiếp cấu hình Jwt Secret tự động ưu tiên từ User Secrets
 var jwtSecret = builder.Configuration["Jwt:Secret"] ?? "MÃ_BẢO_MẬT_DỰ_PHÒNG_NẾU_USER_SECRET_CHƯA_NẠP_KỊP_123456";
@@ -122,7 +120,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// ====================================================================
 
 var app = builder.Build();
 
@@ -139,7 +136,6 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowReact");
 
-// Thứ tự Middleware xác thực bắt buộc của .NET Core
 app.UseAuthentication();
 app.UseAuthorization();
 
